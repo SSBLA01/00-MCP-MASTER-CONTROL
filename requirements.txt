@@ -1,0 +1,28 @@
+# MCP SDK
+mcp>=0.1.0
+
+# Async libraries
+aiohttp>=3.9.0
+aiofiles>=23.0.0
+
+# API clients
+openai>=1.0.0  # For Perplexity API compatibility
+
+# Mathematical libraries
+numpy>=1.24.0
+sympy>=1.12.0
+
+# Animation
+manim>=0.18.0
+
+# File handling
+python-dotenv>=1.0.0
+pyyaml>=6.0.0
+
+# Optional but recommended
+pandas>=2.0.0
+matplotlib>=3.8.0
+requests>=2.31.0
+
+# SSL/TLS support
+certifi>=2023.0.0

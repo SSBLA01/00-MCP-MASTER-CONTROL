@@ -1,0 +1,40 @@
+servers:
+  master_coordinator:
+    name: "Mathematical Research Master Coordinator"
+    version: "1.0.0"
+    capabilities:
+      - session_management
+      - workflow_orchestration
+      - cross_agent_coordination
+
+  research_discovery:
+    name: "Research Discovery Agent"
+    version: "1.0.0"
+    capabilities:
+      - perplexity_search
+      - arxiv_search
+      - web_crawling
+      - content_classification
+
+  mathematical_visualization:
+    name: "Mathematical Visualization Agent"
+    version: "1.0.0"
+    capabilities:
+      - manim_animations
+      - static_diagrams
+      - wolfram_validation
+
+  knowledge_ingestion:
+    name: "Knowledge Ingestion Agent"
+    version: "1.0.0"
+    capabilities:
+      - obsidian_integration
+      - dropbox_sync
+      - github_sync
+      - smart_naming
+
+# Agent communication
+communication:
+  protocol: "stdio"
+  timeout: 300
+  max_retries: 3

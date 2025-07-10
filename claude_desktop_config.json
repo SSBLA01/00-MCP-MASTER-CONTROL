@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "Dobbs-MCP": {
+      "command": "python",
+      "args": ["-m", "src.servers.master_coordinator"],
+      "cwd": "/Users/scottbroock/00 MCP MASTER CONTROL/mathematical-research-mcp",
+      "env": {
+        "PYTHONPATH": "/Users/scottbroock/00 MCP MASTER CONTROL/mathematical-research-mcp"
+      }
+    }
+  }
+}

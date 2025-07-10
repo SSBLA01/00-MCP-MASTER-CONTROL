@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+
+# Environment variables
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project specific
+data/dropbox_sync/
+data/manim_outputs/
+data/obsidian_vault/
+*.log
+test_*.py
+
+# Node modules for dashboard
+dashboard/node_modules/
+dashboard/.next/
+dashboard/out/
+dashboard/build/
+dashboard/dist/
+dashboard/.turbo/
+dashboard/.vercel/
+dashboard/test-report.txt
+dashboard/test-results.json
+dashboard/dev-server.log
+
+# Coverage
+coverage/
+*.lcov
+.nyc_output/
