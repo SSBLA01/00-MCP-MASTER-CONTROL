@@ -278,10 +278,189 @@ async def save_to_dropbox(content: str, file_path: str, overwrite: bool = False)
             "file_path": file_path
         }
 
+async def copy_file(source_path: str, dest_path: str) -> Dict[str, Any]:
+    """Copy a file within Dropbox (supports binary files)"""
+    import shutil
+    
+    dropbox_base = "/Users/scottbroock/Dropbox"
+    source_full = os.path.join(dropbox_base, source_path.strip('/'))
+    dest_full = os.path.join(dropbox_base, dest_path.strip('/'))
+    
+    if not os.path.exists(source_full):
+        return {
+            "error": f"Source file does not exist: {source_path}"
+        }
+    
+    # Create destination directory if needed
+    os.makedirs(os.path.dirname(dest_full), exist_ok=True)
+    
+    try:
+        shutil.copy2(source_full, dest_full)  # copy2 preserves metadata
+        return {
+            "status": "success",
+            "source": source_path,
+            "destination": dest_path,
+            "size": os.path.getsize(dest_full)
+        }
+    except Exception as e:
+        return {
+            "error": f"Could not copy file: {str(e)}"
+        }
+
+async def move_file(source_path: str, dest_path: str) -> Dict[str, Any]:
+    """Move a file within Dropbox"""
+    import shutil
+    
+    dropbox_base = "/Users/scottbroock/Dropbox"
+    source_full = os.path.join(dropbox_base, source_path.strip('/'))
+    dest_full = os.path.join(dropbox_base, dest_path.strip('/'))
+    
+    if not os.path.exists(source_full):
+        return {
+            "error": f"Source file does not exist: {source_path}"
+        }
+    
+    # Create destination directory if needed
+    os.makedirs(os.path.dirname(dest_full), exist_ok=True)
+    
+    try:
+        shutil.move(source_full, dest_full)
+        return {
+            "status": "success",
+            "source": source_path,
+            "destination": dest_path
+        }
+    except Exception as e:
+        return {
+            "error": f"Could not move file: {str(e)}"
+        }
+
+async def delete_file(path: str) -> Dict[str, Any]:
+    """Delete a file or folder in Dropbox"""
+    import shutil
+    
+    dropbox_base = "/Users/scottbroock/Dropbox"
+    full_path = os.path.join(dropbox_base, path.strip('/'))
+    
+    if not os.path.exists(full_path):
+        return {
+            "error": f"Path does not exist: {path}"
+        }
+    
+    try:
+        if os.path.isdir(full_path):
+            shutil.rmtree(full_path)
+            return {
+                "status": "success",
+                "deleted": path,
+                "type": "directory"
+            }
+        else:
+            os.remove(full_path)
+            return {
+                "status": "success",
+                "deleted": path,
+                "type": "file"
+            }
+    except Exception as e:
+        return {
+            "error": f"Could not delete: {str(e)}"
+        }
+
+async def create_folder(path: str) -> Dict[str, Any]:
+    """Create a folder in Dropbox"""
+    dropbox_base = "/Users/scottbroock/Dropbox"
+    full_path = os.path.join(dropbox_base, path.strip('/'))
+    
+    try:
+        os.makedirs(full_path, exist_ok=True)
+        return {
+            "status": "success",
+            "created": path,
+            "full_path": full_path
+        }
+    except Exception as e:
+        return {
+            "error": f"Could not create folder: {str(e)}"
+        }
+
+# New file operation tools
+COPY_FILE_TOOL = Tool(
+    name="copy_file",
+    description="Copy a file within Dropbox (supports binary files)",
+    inputSchema={
+        "type": "object",
+        "properties": {
+            "source_path": {
+                "type": "string",
+                "description": "Source path relative to Dropbox root"
+            },
+            "dest_path": {
+                "type": "string",
+                "description": "Destination path relative to Dropbox root"
+            }
+        },
+        "required": ["source_path", "dest_path"]
+    }
+)
+
+MOVE_FILE_TOOL = Tool(
+    name="move_file",
+    description="Move a file within Dropbox",
+    inputSchema={
+        "type": "object",
+        "properties": {
+            "source_path": {
+                "type": "string",
+                "description": "Source path relative to Dropbox root"
+            },
+            "dest_path": {
+                "type": "string",
+                "description": "Destination path relative to Dropbox root"
+            }
+        },
+        "required": ["source_path", "dest_path"]
+    }
+)
+
+DELETE_FILE_TOOL = Tool(
+    name="delete_file",
+    description="Delete a file or folder in Dropbox",
+    inputSchema={
+        "type": "object",
+        "properties": {
+            "path": {
+                "type": "string",
+                "description": "Path to delete relative to Dropbox root"
+            }
+        },
+        "required": ["path"]
+    }
+)
+
+CREATE_FOLDER_TOOL = Tool(
+    name="create_folder",
+    description="Create a folder in Dropbox",
+    inputSchema={
+        "type": "object",
+        "properties": {
+            "path": {
+                "type": "string",
+                "description": "Folder path relative to Dropbox root"
+            }
+        },
+        "required": ["path"]
+    }
+)
+
 # Export tools list
 FILE_OPERATION_TOOLS = [
     SEARCH_DROPBOX_TOOL,
     LIST_DROPBOX_FOLDER_TOOL,
     READ_DROPBOX_FILE_TOOL,
-    SAVE_TO_DROPBOX_TOOL
+    SAVE_TO_DROPBOX_TOOL,
+    COPY_FILE_TOOL,
+    MOVE_FILE_TOOL,
+    DELETE_FILE_TOOL,
+    CREATE_FOLDER_TOOL
 ]

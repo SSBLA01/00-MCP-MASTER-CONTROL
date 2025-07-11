@@ -27,6 +27,7 @@ from mcp.types import Tool, TextContent
 # Import file operations
 from src.servers.file_operations import (
     search_dropbox, list_dropbox_folder, read_dropbox_file, save_to_dropbox,
+    copy_file, move_file, delete_file, create_folder,
     FILE_OPERATION_TOOLS
 )
 
@@ -122,6 +123,14 @@ async def handle_call_tool(name: str, arguments: dict) -> List[TextContent]:
             result = await read_dropbox_file(**arguments)
         elif name == "save_to_dropbox":
             result = await save_to_dropbox(**arguments)
+        elif name == "copy_file":
+            result = await copy_file(**arguments)
+        elif name == "move_file":
+            result = await move_file(**arguments)
+        elif name == "delete_file":
+            result = await delete_file(**arguments)
+        elif name == "create_folder":
+            result = await create_folder(**arguments)
         
         # GitHub operations
         elif name == "list_github_repos":
