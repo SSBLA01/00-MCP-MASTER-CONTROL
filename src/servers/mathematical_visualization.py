@@ -67,6 +67,10 @@ CREATE_MANIM_ANIMATION_TOOL = Tool(
                 "type": "array",
                 "items": {"type": "string"},
                 "description": "LaTeX equations to include"
+            },
+            "output_path": {
+                "type": "string",
+                "description": "Custom output path for the final MP4 (relative to Dropbox root, e.g., 'Media/Manim/my_animation.mp4'). If not specified, uses default manim_outputs folder."
             }
         },
         "required": ["concept", "animation_type"]
@@ -282,7 +286,8 @@ async def create_manim_animation(
     animation_type: str,
     style: str = "3blue1brown",
     duration: int = 30,
-    equations: List[str] = None
+    equations: List[str] = None,
+    output_path: str = None
 ) -> Dict[str, Any]:
     """Create a Manim animation"""
     
@@ -357,15 +362,36 @@ async def create_manim_animation(
                 video_file = video_files[0]
                 logger.info(f"Animation created successfully: {video_file}")
                 
+                # Handle custom output path if specified
+                final_video_path = str(video_file)
+                if output_path:
+                    import shutil
+                    # Ensure output_path is relative to Dropbox
+                    dropbox_base = "/Users/scottbroock/Dropbox"
+                    custom_path = Path(dropbox_base) / output_path.strip('/')
+                    
+                    # Create parent directory if needed
+                    custom_path.parent.mkdir(parents=True, exist_ok=True)
+                    
+                    # Copy the video to the custom location
+                    try:
+                        shutil.copy2(video_file, custom_path)
+                        logger.info(f"Video copied to custom location: {custom_path}")
+                        final_video_path = str(custom_path)
+                    except Exception as e:
+                        logger.error(f"Failed to copy to custom location: {e}")
+                        # Still return success but note the copy failure
+                
                 return {
                     "status": "success",
-                    "animation_file": str(video_file),
+                    "animation_file": final_video_path,
                     "source_file": str(manim_file),
                     "concept": concept,
                     "type": animation_type,
                     "duration": duration,
                     "creation_time": datetime.now().isoformat(),
-                    "manim_output": result.stdout
+                    "manim_output": result.stdout,
+                    "original_location": str(video_file) if output_path else None
                 }
             else:
                 # Also check without quality folder (some versions of Manim)
@@ -376,15 +402,36 @@ async def create_manim_animation(
                     video_file = video_files_alt[0]
                     logger.info(f"Animation created successfully: {video_file}")
                     
+                    # Handle custom output path if specified
+                    final_video_path = str(video_file)
+                    if output_path:
+                        import shutil
+                        # Ensure output_path is relative to Dropbox
+                        dropbox_base = "/Users/scottbroock/Dropbox"
+                        custom_path = Path(dropbox_base) / output_path.strip('/')
+                        
+                        # Create parent directory if needed
+                        custom_path.parent.mkdir(parents=True, exist_ok=True)
+                        
+                        # Copy the video to the custom location
+                        try:
+                            shutil.copy2(video_file, custom_path)
+                            logger.info(f"Video copied to custom location: {custom_path}")
+                            final_video_path = str(custom_path)
+                        except Exception as e:
+                            logger.error(f"Failed to copy to custom location: {e}")
+                            # Still return success but note the copy failure
+                    
                     return {
                         "status": "success",
-                        "animation_file": str(video_file),
+                        "animation_file": final_video_path,
                         "source_file": str(manim_file),
                         "concept": concept,
                         "type": animation_type,
                         "duration": duration,
                         "creation_time": datetime.now().isoformat(),
-                        "manim_output": result.stdout
+                        "manim_output": result.stdout,
+                        "original_location": str(video_file) if output_path else None
                     }
                 else:
                     logger.error(f"No video file found after Manim execution")
