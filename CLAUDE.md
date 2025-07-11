@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-The Mathematical Research MCP System (Dobbs-MCP) is a unified MCP server providing 27 tools for mathematical research, file management, and knowledge organization. It integrates with Dropbox, GitHub, Obsidian, Perplexity AI, Wolfram Alpha, and Manim.
+The Mathematical Research MCP System (Dobbs-MCP) is a unified MCP server providing 43 tools for mathematical research, file management, and knowledge organization. It integrates with Dropbox, GitHub, Obsidian, Notion, Gemini AI, Perplexity AI, Wolfram Alpha, and Manim.
 
 ## Project Mission: Integrated Mathematical Research Knowledge Management & Publication System
 
@@ -32,6 +32,7 @@ We are developing an intelligent research automation platform to organize, valid
 - Docker Desktop (containerized tool deployment)
 - Obsidian API (PKM backend with atomic notes)
 - Notion API (selective publishing and collaboration)
+- Gemini AI API (collaborative analysis and brainstorming)
 - Perplexity API (deep research and critical mathematical formulas for rendering)
 - Manim Community (precision mathematical animations)
 - Mathematica/Wolfram Engine (structured computational notebooks)
@@ -70,7 +71,7 @@ python test_github.py
 ## Architecture
 
 ### Entry Points
-- **Primary Server**: `src/servers/dobbs_unified.py` - Unified server with all 27 tools
+- **Primary Server**: `src/servers/dobbs_unified.py` - Unified server with all 43 tools
 - **Wrapper Script**: `run_dobbs_mcp.sh` - Ensures proper environment for Claude Desktop
 
 ### Core Components
