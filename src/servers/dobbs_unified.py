@@ -256,6 +256,10 @@ async def main():
     logger.info(f"Obsidian vault: {config['paths']['obsidian_vault']}")
     logger.info(f"Total tools available: {len(ALL_TOOLS)}")
     
+    # Add startup delay to prevent timeout
+    logger.info("Initializing server components...")
+    await asyncio.sleep(0.5)
+    
     # Ensure required directories exist
     ensure_directory(config['paths']['obsidian_vault'])
     ensure_directory(config['paths']['manim_output'])
