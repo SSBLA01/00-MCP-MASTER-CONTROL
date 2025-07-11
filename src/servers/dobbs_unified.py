@@ -61,6 +61,13 @@ from src.servers.obsidian_enhanced import (
     create_atomic_note, create_literature_note, create_pattern_note, update_daily_note
 )
 
+# Import Notion operations
+from src.servers.notion_operations import (
+    search_notion, create_notion_page, update_notion_page, add_to_notion_database,
+    list_notion_databases, sync_obsidian_to_notion,
+    NOTION_OPERATION_TOOLS
+)
+
 # Setup logging
 logger = setup_logging("DobbsUnified")
 
@@ -100,7 +107,10 @@ ALL_TOOLS = [
     INGEST_TO_OBSIDIAN_TOOL,
     SYNC_TO_DROPBOX_TOOL,
     MANAGE_GITHUB_REPO_TOOL,
-    CREATE_SMART_INDEX_TOOL
+    CREATE_SMART_INDEX_TOOL,
+    
+    # Notion operations
+    *NOTION_OPERATION_TOOLS
 ]
 
 # List available tools
@@ -187,6 +197,20 @@ async def handle_call_tool(name: str, arguments: dict) -> List[TextContent]:
             result = await manage_github_repo(**arguments)
         elif name == "create_smart_index":
             result = await create_smart_index(**arguments)
+        
+        # Notion operations
+        elif name == "search_notion":
+            result = await search_notion(**arguments)
+        elif name == "create_notion_page":
+            result = await create_notion_page(**arguments)
+        elif name == "update_notion_page":
+            result = await update_notion_page(**arguments)
+        elif name == "add_to_notion_database":
+            result = await add_to_notion_database(**arguments)
+        elif name == "list_notion_databases":
+            result = await list_notion_databases(**arguments)
+        elif name == "sync_obsidian_to_notion":
+            result = await sync_obsidian_to_notion(**arguments)
         
         else:
             result = {"error": f"Unknown tool: {name}"}
