@@ -10,6 +10,8 @@ from typing import Dict, List, Optional, Any
 from datetime import datetime
 import aiohttp
 import asyncio
+import ssl
+import certifi
 from mcp.types import Tool
 
 # Notion API configuration
@@ -155,6 +157,11 @@ SYNC_OBSIDIAN_TO_NOTION_TOOL = Tool(
 )
 
 # Helper functions
+def create_ssl_context():
+    """Create SSL context with proper certificate verification"""
+    ssl_context = ssl.create_default_context(cafile=certifi.where())
+    return ssl_context
+
 async def get_notion_headers() -> Dict[str, str]:
     """Get headers for Notion API requests"""
     token = os.getenv('NOTION_TOKEN')
@@ -263,7 +270,10 @@ async def search_notion(query: str, filter: str = "all") -> Dict[str, Any]:
     if filter != "all":
         payload["filter"] = {"property": "object", "value": filter}
     
-    async with aiohttp.ClientSession() as session:
+    ssl_context = create_ssl_context()
+    connector = aiohttp.TCPConnector(ssl=ssl_context)
+    
+    async with aiohttp.ClientSession(connector=connector) as session:
         async with session.post(
             f"{NOTION_API_BASE}/search",
             headers=headers,
@@ -346,7 +356,10 @@ async def create_notion_page(
     if cover_url:
         page_data["cover"] = {"type": "external", "external": {"url": cover_url}}
     
-    async with aiohttp.ClientSession() as session:
+    ssl_context = create_ssl_context()
+    connector = aiohttp.TCPConnector(ssl=ssl_context)
+    
+    async with aiohttp.ClientSession(connector=connector) as session:
         async with session.post(
             f"{NOTION_API_BASE}/pages",
             headers=headers,
@@ -386,7 +399,10 @@ async def update_notion_page(
             }
         }
         
-        async with aiohttp.ClientSession() as session:
+        ssl_context = create_ssl_context()
+        connector = aiohttp.TCPConnector(ssl=ssl_context)
+        
+        async with aiohttp.ClientSession(connector=connector) as session:
             async with session.patch(
                 f"{NOTION_API_BASE}/pages/{page_id}",
                 headers=headers,
@@ -405,7 +421,10 @@ async def update_notion_page(
         
         if replace_content:
             # First, get existing blocks
-            async with aiohttp.ClientSession() as session:
+            ssl_context = create_ssl_context()
+            connector = aiohttp.TCPConnector(ssl=ssl_context)
+            
+            async with aiohttp.ClientSession(connector=connector) as session:
                 async with session.get(
                     f"{NOTION_API_BASE}/blocks/{page_id}/children",
                     headers=headers
@@ -420,7 +439,10 @@ async def update_notion_page(
                             )
         
         # Add new blocks
-        async with aiohttp.ClientSession() as session:
+        ssl_context = create_ssl_context()
+        connector = aiohttp.TCPConnector(ssl=ssl_context)
+        
+        async with aiohttp.ClientSession(connector=connector) as session:
             async with session.patch(
                 f"{NOTION_API_BASE}/blocks/{page_id}/children",
                 headers=headers,
@@ -461,7 +483,10 @@ async def add_to_notion_database(
         blocks = markdown_to_notion_blocks(content)
         page_data["children"] = blocks
     
-    async with aiohttp.ClientSession() as session:
+    ssl_context = create_ssl_context()
+    connector = aiohttp.TCPConnector(ssl=ssl_context)
+    
+    async with aiohttp.ClientSession(connector=connector) as session:
         async with session.post(
             f"{NOTION_API_BASE}/pages",
             headers=headers,
