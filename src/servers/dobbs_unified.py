@@ -68,6 +68,13 @@ from src.servers.notion_operations import (
     NOTION_OPERATION_TOOLS
 )
 
+# Import Gemini operations
+from src.servers.gemini_operations import (
+    gemini_query, gemini_analyze_code, gemini_brainstorm, gemini_summarize,
+    gemini_math_analysis, gemini_research_review,
+    GEMINI_OPERATION_TOOLS
+)
+
 # Setup logging
 logger = setup_logging("DobbsUnified")
 
@@ -110,7 +117,10 @@ ALL_TOOLS = [
     CREATE_SMART_INDEX_TOOL,
     
     # Notion operations
-    *NOTION_OPERATION_TOOLS
+    *NOTION_OPERATION_TOOLS,
+    
+    # Gemini operations
+    *GEMINI_OPERATION_TOOLS
 ]
 
 # List available tools
@@ -211,6 +221,20 @@ async def handle_call_tool(name: str, arguments: dict) -> List[TextContent]:
             result = await list_notion_databases(**arguments)
         elif name == "sync_obsidian_to_notion":
             result = await sync_obsidian_to_notion(**arguments)
+        
+        # Gemini operations
+        elif name == "gemini_query":
+            result = await gemini_query(**arguments)
+        elif name == "gemini_analyze_code":
+            result = await gemini_analyze_code(**arguments)
+        elif name == "gemini_brainstorm":
+            result = await gemini_brainstorm(**arguments)
+        elif name == "gemini_summarize":
+            result = await gemini_summarize(**arguments)
+        elif name == "gemini_math_analysis":
+            result = await gemini_math_analysis(**arguments)
+        elif name == "gemini_research_review":
+            result = await gemini_research_review(**arguments)
         
         else:
             result = {"error": f"Unknown tool: {name}"}

@@ -8,6 +8,7 @@
 - ✅ **Dropbox** - Configured (App key & secret)
 - ✅ **GitHub** - Configured (Personal access token)
 - ✅ **Notion** - Configured (Integration token added 2024-01-11)
+- ✅ **Gemini AI** - Configured (API key added 2024-01-11)
 
 ### File Paths
 - ✅ **Obsidian Vault** - `/Users/scottbroock/Dropbox/01_Totem_Networks/04_Obsidian`
@@ -16,11 +17,12 @@
 - ✅ **Media Folder** - `/Users/scottbroock/Dropbox/Media` (Created 2024-01-11)
 
 ### MCP Server Status
-- **Total Tools**: 37
+- **Total Tools**: 43
 - **Categories**:
   - 8 Dropbox file operations (including binary file support)
   - 7 GitHub operations
   - 6 Notion operations
+  - 6 Gemini AI operations
   - 4 Research discovery tools
   - 4 Mathematical visualization tools (with custom output paths)
   - 4 Knowledge management tools
@@ -34,6 +36,8 @@ All integrations are configured and ready. Remember to:
 3. The `.env` file contains sensitive tokens and is not tracked in git
 
 ## Recent Updates
+- 2024-01-11: Added Gemini AI integration with 6 tools
+- 2024-01-11: Fixed SSL certificate issues in Notion operations
 - 2024-01-11: Added Notion integration token
 - 2024-01-11: Created Media folder structure for Manim outputs
 - 2024-01-11: Added custom output path support for Manim videos

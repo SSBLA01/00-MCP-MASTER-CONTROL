@@ -96,9 +96,16 @@ python test_github.py
    - Zettelkasten note creation with timestamps
    - Smart indexing
 
+6. **Gemini Operations** (`src/servers/gemini_operations.py`)
+   - AI-powered analysis and brainstorming
+   - Code security and performance analysis
+   - Mathematical concept exploration
+   - Research review and feedback
+
 ### Enhanced Features
 - **Obsidian Enhanced** (`src/servers/obsidian_enhanced.py`): Atomic note creation with Zettelkasten IDs
 - **Folder Mapping**: Uses numbered folders (01_Sources, 02_Literature_Notes, etc.)
+- **Gemini Integration**: 6 tools for collaborative AI analysis
 
 ## Environment Configuration
 
@@ -109,9 +116,11 @@ Critical paths in `.env`:
 
 ## Tool Categories
 
-The unified server provides:
-- 4 Dropbox file operation tools
+The unified server provides 43 tools:
+- 8 Dropbox file operation tools (including binary file support)
 - 7 GitHub repository tools
+- 6 Notion workspace tools
+- 6 Gemini AI analysis tools
 - 4 Research discovery tools
 - 4 Mathematical visualization tools
 - 4 Knowledge management tools
@@ -119,7 +128,7 @@ The unified server provides:
 
 ## SSL/Certificate Handling
 
-Both GitHub and research APIs use custom SSL contexts:
+GitHub, Notion, and research APIs use custom SSL contexts:
 ```python
 ssl_context = ssl.create_default_context(cafile=certifi.where())
 connector = aiohttp.TCPConnector(ssl=ssl_context)
