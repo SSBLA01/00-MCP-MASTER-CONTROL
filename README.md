@@ -6,6 +6,12 @@ This MCP server system provides AI-powered tools for mathematical research manag
 - Mathematical visualization with Manim
 - Knowledge organization with Obsidian
 - Smart file management with Dropbox and GitHub
+- **NEW**: Gyrovector space visualizations for hyperbolic geometry
+
+## Recent Updates
+- **Gyrovector Visualization Module**: Added Manim-based animations for Poincaré disk gyrovector operations
+- **Fixed Text Overlapping**: Resolved animation layout issues with proper spatial organization
+- **Mathematical Foundations**: Documented Möbius addition and gyration operators
 
 ## Quick Start
 
@@ -61,6 +67,20 @@ Add this configuration:
 ### 4. Restart Claude Desktop
 After updating the configuration, restart Claude Desktop to load the MCP server.
 
+## Visualization Modules
+
+### Gyrovector Spaces
+The `visualizations/gyrovector/` module provides:
+- **Möbius Addition**: Visual demonstrations in the Poincaré disk
+- **Gyration Operators**: Animations showing non-commutativity corrections
+- **Hyperbolic Geometry**: Interactive explorations of curved spaces
+
+Example usage:
+```bash
+cd visualizations/gyrovector
+manim -pql gyrovector_clean.py GyrovectorCleanAnimation
+```
+
 ## Usage Examples
 
 ### Starting a Research Session
@@ -115,6 +135,12 @@ mathematical-research-mcp/
 │   │   └── knowledge_ingestion.py
 │   └── utils/
 │       └── common.py
+├── visualizations/
+│   └── gyrovector/
+│       ├── gyrovector_clean.py
+│       ├── gyrovector_quick.py
+│       ├── MATHEMATICAL_FOUNDATIONS.md
+│       └── README.md
 ├── data/
 │   ├── obsidian_vault/
 │   ├── manim_outputs/
@@ -143,6 +169,11 @@ mathematical-research-mcp/
 2. Check that ffmpeg is installed on your system
 3. Verify the MANIM_OUTPUT_DIR path exists and is writable
 
+### Text overlapping in animations
+1. Use the `gyrovector_clean.py` version which implements proper spatial layout
+2. Position labels using `.next_to()` with appropriate buffers
+3. Create dedicated areas for formulas and visualizations
+
 ## Development
 
 ### Running Tests
@@ -155,6 +186,12 @@ pytest tests/
 2. Implement the tool handler function
 3. Register the tool with the server
 4. Update documentation
+
+### Creating New Visualizations
+1. Add animation files to appropriate module directory
+2. Follow the spatial layout patterns from `gyrovector_clean.py`
+3. Test at different quality levels (low, medium, high)
+4. Document mathematical foundations
 
 ## License
 MIT License - See LICENSE file for details
