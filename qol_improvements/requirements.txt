@@ -1,0 +1,17 @@
+# Additional requirements for Quality of Life improvements
+# Install with: pip install -r qol_improvements/requirements.txt
+
+# PDF processing
+PyPDF2>=3.0.0
+
+# Scheduling
+schedule>=1.2.0
+
+# HTTP requests for URL processing
+requests>=2.31.0
+
+# File watching (optional, for future enhancements)
+watchdog>=3.0.0
+
+# Progress bars (optional, for better UX)
+tqdm>=4.66.0
