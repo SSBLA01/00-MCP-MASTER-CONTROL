@@ -17,6 +17,7 @@ import uuid
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from src.utils.common import setup_logging, load_config, ensure_directory
+from src.utils.context_monitor import wrap_tool_response, context_monitor
 
 # Import MCP SDK
 from mcp.server.models import InitializationOptions
@@ -129,10 +130,10 @@ async def handle_list_tools() -> List[Tool]:
     """Return all available tools"""
     return ALL_TOOLS
 
-# Tool handler
+# Tool handler with context monitoring
 @server.call_tool()
 async def handle_call_tool(name: str, arguments: dict) -> List[TextContent]:
-    """Handle all tool calls"""
+    """Handle all tool calls with context monitoring"""
     try:
         # File operations
         if name == "search_dropbox":
@@ -239,22 +240,38 @@ async def handle_call_tool(name: str, arguments: dict) -> List[TextContent]:
         else:
             result = {"error": f"Unknown tool: {name}"}
         
-        return [TextContent(type="text", text=json.dumps(result, indent=2))]
+        # Wrap result with context monitoring
+        monitored_result = wrap_tool_response(name, result)
+        
+        # Check if we've hit critical limit
+        if isinstance(monitored_result, dict) and monitored_result.get('_context_warning'):
+            logger.warning(f"Context warning for tool {name}: {monitored_result['_context_warning']}")
+            
+            # Log stats if available
+            if '_context_stats' in monitored_result:
+                stats = monitored_result['_context_stats']
+                logger.info(f"Context stats - Usage: {stats.get('percentage', 0):.1f}%, Messages: {stats.get('message_count', 0)}")
+        
+        return [TextContent(type="text", text=json.dumps(monitored_result, indent=2))]
     
     except Exception as e:
         logger.error(f"Error handling tool {name}: {e}")
-        return [TextContent(type="text", text=json.dumps({
+        error_result = {
             "error": str(e),
             "tool": name,
             "suggestion": "Check the parameters and try again"
-        }, indent=2))]
+        }
+        # Monitor even error responses
+        monitored_error = wrap_tool_response(name, error_result)
+        return [TextContent(type="text", text=json.dumps(monitored_error, indent=2))]
 
 async def main():
     """Main entry point for the MCP server"""
-    logger.info("Starting Dobbs Unified MCP Server...")
+    logger.info("Starting Dobbs Unified MCP Server with Context Monitoring...")
     logger.info(f"Dropbox base path: {config['paths']['dropbox_base']}")
     logger.info(f"Obsidian vault: {config['paths']['obsidian_vault']}")
     logger.info(f"Total tools available: {len(ALL_TOOLS)}")
+    logger.info(f"Context monitor initialized with {context_monitor.MAX_CHARS} char limit")
     
     # Add startup delay to prevent timeout
     logger.info("Initializing server components...")
@@ -271,7 +288,7 @@ async def main():
             write_stream,
             InitializationOptions(
                 server_name="dobbs-unified-mcp",
-                server_version="1.0.0",
+                server_version="1.1.0",
                 capabilities=server.get_capabilities(
                     notification_options=NotificationOptions(),
                     experimental_capabilities={},
