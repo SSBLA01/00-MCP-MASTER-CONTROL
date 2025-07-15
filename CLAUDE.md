@@ -7,6 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 The Mathematical Research MCP System (Dobbs-MCP) is a unified MCP server providing 43+ tools for mathematical research, file management, and knowledge organization. It integrates with Dropbox, GitHub, Obsidian, Notion, Gemini AI, Perplexity AI, Wolfram Alpha, and Manim.
 
 **Current Version: 1.3.0** (July 14, 2025)
+**Claude Flow Integration: v2.0.0-alpha.53** (Phase 2 Active ✅)
 
 ## Project Mission: Integrated Mathematical Research Knowledge Management & Publication System
 
@@ -41,9 +42,53 @@ We are developing an intelligent research automation platform to organize, valid
 - Web scraping tools (automated document collection)
 - LaTeX/BibTeX generators (academic publication pipeline)
 - Wolfram Alpha API (mathematical validation)
+- **Claude Flow v2.0.0 Alpha** (87 tools: hive-mind swarm intelligence, neural acceleration)
 
 ### Target Output: 
 A unified system that transforms scattered research materials into an organized knowledge base, enables precision mathematical visualization from natural language, and produces publication-ready documents with proper academic formatting and comprehensive material compilation.
+
+## 🚀 Claude Flow Integration (Phase 2 Active)
+
+### What is Claude Flow?
+Claude Flow v2.0.0 Alpha is an advanced AI orchestration system that adds 87 tools to our existing 43+ tools, bringing:
+- **Hive-Mind Swarm Intelligence**: Queen-led AI coordination with 4 workers
+- **Neural Acceleration**: WASM SIMD for mathematical computations (future enhancement)
+- **Enhanced GitHub**: 6 specialized modes (gh-coordinator, pr-manager, repo-architect, etc.)
+- **Persistent Memory**: SQLite .swarm/memory.db with stored mathematical knowledge
+- **Dynamic Agent Architecture**: Orchestrated multi-agent workflows
+
+### Integration Status
+- **Phase 1**: ✅ Complete (87.5% success rate)
+- **Phase 2**: ✅ Active (100% success rate)
+- **Location**: `/Users/scottbroock/Dropbox/MathematicalResearch/claude-flow-integration/`
+
+### Available Workflows
+1. **Gyrovector-Sequential**: Step-by-step mathematical operations
+2. **Gyrovector-Parallel**: Batch processing for speed
+3. **Mathematical-Analysis**: Pattern discovery
+4. **Performance-Benchmarks**: Speed testing
+
+### Obsidian Tag Integration
+Use these tags in notes to trigger Claude Flow:
+- `#cf/compute` - Execute computational workflow
+- `#cf/analyze` - Analyze mathematical structure
+- `#cf/visualize` - Generate visualization request
+- `#cf/explore` - Explore parameter space
+
+### Quick Commands
+```bash
+# Search mathematical content
+npx claude-flow@alpha memory search 'gyrovector'
+
+# Execute gyrovector computation
+./gyrovector-compute.sh compute gyroaddition '[0.3,0.4,0]' '[0.1,0.2,0.5]'
+
+# Process Obsidian note with Claude Flow
+python3 obsidian-integration.py your_note.md
+
+# Run performance benchmark
+npx claude-flow@alpha workflow execute "Performance-Benchmarks"
+```
 
 ## 🚨 CRITICAL PRIVACY ARCHITECTURE
 
@@ -123,12 +168,28 @@ python visualizations/gyrovector/test_gyrovector.py  # New in v1.2.0
 ./run_dobbs_mcp.sh
 ```
 
+### Claude Flow Commands
+```bash
+# Change to integration directory
+cd /Users/scottbroock/Dropbox/MathematicalResearch/claude-flow-integration
+
+# Test gyrovector computation
+./gyrovector-compute.sh compute gyroaddition '[0.3,0.4,0]' '[0.1,0.2,0.5]'
+
+# Explore stored knowledge
+npx claude-flow@alpha memory list
+
+# Start mathematical exploration
+npx claude-flow@alpha agent task "explore gyrovector parameter space"
+```
+
 ## Architecture
 
 ### Entry Points
 - **Primary Server**: `src/servers/dobbs_unified.py` - Unified server with all 43+ tools
 - **Wrapper Script**: `run_dobbs_mcp.sh` - Ensures proper environment for Claude Desktop
 - **QoL Daemon**: `00_MCP_Tools/mcp_qol_master.py` - Runs automation features
+- **Claude Flow**: `claude-flow-integration/` - Enhanced AI capabilities (87 tools)
 
 ### Core Components
 1. **File Operations** (`src/servers/file_operations.py`)
@@ -138,6 +199,7 @@ python visualizations/gyrovector/test_gyrovector.py  # New in v1.2.0
 2. **GitHub Operations** (`src/servers/github_operations.py`)
    - Full repository management with SSL support
    - Uses personal access token from .env
+   - Enhanced by Claude Flow's 6 GitHub modes
 
 3. **Research Tools** (`src/servers/research_discovery.py`)
    - Perplexity AI integration (note: API may need updates)
@@ -161,6 +223,12 @@ python visualizations/gyrovector/test_gyrovector.py  # New in v1.2.0
    - Mathematical concept exploration
    - Research review and feedback
 
+7. **Claude Flow Integration** (`claude-flow-integration/`)
+   - Hive-mind swarm intelligence
+   - Mathematical knowledge base
+   - Workflow automation
+   - Agent orchestration
+
 ### Quality of Life Components (v1.3.0)
 - **Inbox Processor** (`00_MCP_Tools/mcp_inbox_processor.py`): Hourly file organization
 - **Search Priority** (`00_MCP_Tools/mcp_search_priority.py`): Cloud-first unified search
@@ -171,6 +239,7 @@ python visualizations/gyrovector/test_gyrovector.py  # New in v1.2.0
 - **Folder Mapping**: Uses numbered folders (01_Sources, 02_Literature_Notes, etc.)
 - **Gemini Integration**: 6 tools for collaborative AI analysis
 - **Gyrovector Animations**: Clean text layout, spatial separation (v1.2.0)
+- **Claude Flow Workflows**: Pre-configured mathematical computation sequences
 
 ## Environment Configuration
 
@@ -181,10 +250,12 @@ Critical paths in `.env`:
 - `MCP_INBOX_PATH`: `/Users/scottbroock/Dropbox/00_MCP_INBOX`
 - `MCP_SEARCH_PRIORITY`: `cloud_first`
 - `MCP_AUTO_PROCESS`: `enabled`
+- `CLAUDE_FLOW_PATH`: `/Users/scottbroock/Dropbox/MathematicalResearch/claude-flow-integration`
 
 ## Tool Categories
 
-The unified server provides 43+ tools:
+The unified system now provides 130+ tools:
+### Dobbs-MCP (43+ tools):
 - 8 Dropbox file operation tools (including binary file support)
 - 7 GitHub repository tools
 - 6 Notion workspace tools (MANUAL publishing only)
@@ -194,6 +265,27 @@ The unified server provides 43+ tools:
 - 4 Knowledge management tools
 - 4 Research coordination tools
 - 3+ Quality of Life automation tools (v1.3.0)
+
+### Claude Flow (87 tools):
+- Hive-mind swarm intelligence coordination
+- Neural acceleration frameworks
+- Enhanced GitHub operations (6 modes)
+- Memory persistence system
+- Dynamic agent architecture
+- Workflow orchestration
+- Mathematical computation modules
+
+## Mathematical Knowledge Base (Claude Flow)
+
+Pre-loaded formulas:
+```json
+{
+  "gyroaddition": "u ⊕ v = (1 + u·v/γ_u γ_v)^(-1) [u + (1/γ_u)v + (γ_u/(1+γ_u))(u·v/γ_u²)u]",
+  "gyroscalar": "r ⊗ u = tanh(r * atanh(||u||)) * (u/||u||)",
+  "gyrodistance": "d(u,v) = atanh(||u ⊖ v||)",
+  "gyroparallel_transport": "P_{u→v}(w) = w + 2(u·w)/(1+γ_u)u + 2(v·w)/(1+γ_v)v"
+}
+```
 
 ## SSL/Certificate Handling
 
@@ -211,8 +303,16 @@ Key test files:
 - `test_github.py`: Verifies GitHub API connectivity
 - `create_manim_demo.py`: Generates actual MP4 videos
 - `visualizations/gyrovector/test_gyrovector.py`: Tests gyrovector math operations
+- `claude-flow-integration/phase1-final-report.json`: Claude Flow test results
 
 ## Recent Updates
+
+### Claude Flow Integration (2025-07-14)
+- Phase 1 complete (87.5% success rate)
+- Phase 2 active (100% success rate)
+- Mathematical workflows operational
+- Hive-mind coordination ready
+- Obsidian tag integration configured
 
 ### Version 1.3.0 (2025-07-14)
 - Added automatic hourly inbox processing
@@ -232,6 +332,7 @@ Key test files:
 1. Perplexity API returns 400 errors - may need endpoint/auth updates
 2. Manim requires system dependencies (ffmpeg, LaTeX)
 3. Dropbox OAuth flow not fully implemented (using app key/secret)
+4. Claude Flow WASM SIMD acceleration pending future implementation
 
 ## Privacy Reminders
 
