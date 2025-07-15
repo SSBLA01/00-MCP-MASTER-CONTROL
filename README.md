@@ -1,197 +1,449 @@
-# Mathematical Research MCP System (Dobbs-MCP)
+# Dobbs-MCP Master Control System
 
-## Overview
-This MCP server system provides AI-powered tools for mathematical research management, including:
-- Research discovery with Perplexity AI
-- Mathematical visualization with Manim
-- Knowledge organization with Obsidian
-- Smart file management with Dropbox and GitHub
-- **NEW**: Gyrovector space visualizations for hyperbolic geometry
+**Version 1.3.0** | **Claude Flow Integration: v2.0.0-alpha.53** | **Total Tools: 130+**
 
-## Recent Updates
-- **Gyrovector Visualization Module**: Added Manim-based animations for Poincaré disk gyrovector operations
-- **Fixed Text Overlapping**: Resolved animation layout issues with proper spatial organization
-- **Mathematical Foundations**: Documented Möbius addition and gyration operators
+## 🚀 Overview
 
-## Quick Start
+Dobbs-MCP is a unified Model Context Protocol (MCP) server providing AI-powered tools for mathematical research management, knowledge organization, and intelligent automation. This stable release integrates Claude Flow's hive-mind swarm intelligence, bringing the total tool count to over 130 specialized functions.
 
-### 1. Install Dependencies
+### Key Features
+- **130+ Integrated Tools**: 43+ native tools + 87 Claude Flow tools
+- **Multi-Platform Integration**: Dropbox, GitHub, Obsidian, Notion, Gemini AI, Perplexity, Wolfram Alpha
+- **Mathematical Visualization**: Manim animations with gyrovector space support
+- **Intelligent Automation**: Hourly inbox processing, smart file organization
+- **Privacy-First Architecture**: Clear separation between private research and public content
+- **Claude Flow Hive-Mind**: Queen-led swarm intelligence for complex workflows
+
+## 📋 Table of Contents
+- [Quick Start](#quick-start)
+- [Architecture](#architecture)
+- [Claude Flow Integration](#claude-flow-integration)
+- [Tool Categories](#tool-categories)
+- [Privacy & Security](#privacy--security)
+- [Quality of Life Features](#quality-of-life-features)
+- [API Documentation](#api-documentation)
+- [Development Guide](#development-guide)
+- [Troubleshooting](#troubleshooting)
+
+## 🎯 Quick Start
+
+### Prerequisites
+- Python 3.8+
+- Claude Desktop
+- API Keys: Perplexity, Wolfram Alpha, Dropbox, GitHub, Notion, Gemini
+- Optional: Docker Desktop, Mathematica
+
+### Installation
+
 ```bash
+# Clone the repository
+git clone https://github.com/SSBLA01/00-MCP-MASTER-CONTROL.git
+cd 00-MCP-MASTER-CONTROL
+
 # Create virtual environment
 python -m venv venv
-
-# Activate virtual environment
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 # Install dependencies
 pip install -r requirements.txt
-```
+pip install -r qol_improvements/requirements.txt
 
-### 2. Configure Environment
-```bash
-# Copy the example environment file
+# Configure environment
 cp .env.example .env
-
-# Edit .env with your API keys:
-# - PERPLEXITY_API_KEY
-# - WOLFRAM_ALPHA_APP_ID
-# - DROPBOX_APP_KEY and DROPBOX_APP_SECRET
-# - GITHUB_TOKEN
+# Edit .env with your API keys
 ```
 
-### 3. Configure Claude Desktop
-Add the Dobbs-MCP server to your Claude Desktop configuration:
+### Claude Desktop Configuration
 
-**On macOS:**
-Edit `~/Library/Application Support/Claude/claude_desktop_config.json`
+Add to your Claude Desktop config:
 
-**On Windows:**
-Edit `%APPDATA%\Claude\claude_desktop_config.json`
+**macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`  
+**Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
 
-Add this configuration:
 ```json
 {
   "mcpServers": {
     "Dobbs-MCP": {
-      "command": "python",
-      "args": ["-m", "src.servers.master_coordinator"],
-      "cwd": "/Users/scottbroock/00 MCP MASTER CONTROL/mathematical-research-mcp",
+      "command": "bash",
+      "args": ["/path/to/00-MCP-MASTER-CONTROL/run_dobbs_mcp.sh"],
+      "cwd": "/path/to/00-MCP-MASTER-CONTROL",
       "env": {
-        "PYTHONPATH": "/Users/scottbroock/00 MCP MASTER CONTROL/mathematical-research-mcp"
+        "PYTHONPATH": "/path/to/00-MCP-MASTER-CONTROL"
       }
     }
   }
 }
 ```
 
-### 4. Restart Claude Desktop
-After updating the configuration, restart Claude Desktop to load the MCP server.
+Restart Claude Desktop after configuration.
 
-## Visualization Modules
+## 🏗️ Architecture
 
-### Gyrovector Spaces
-The `visualizations/gyrovector/` module provides:
-- **Möbius Addition**: Visual demonstrations in the Poincaré disk
-- **Gyration Operators**: Animations showing non-commutativity corrections
-- **Hyperbolic Geometry**: Interactive explorations of curved spaces
+### System Components
 
-Example usage:
-```bash
-cd visualizations/gyrovector
-manim -pql gyrovector_clean.py GyrovectorCleanAnimation
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    Claude Desktop Interface                  │
+├─────────────────────────────────────────────────────────────┤
+│                  Dobbs Unified MCP Server                    │
+│                  (src/servers/dobbs_unified.py)             │
+├─────────────┬───────────────┬───────────────┬──────────────┤
+│   File Ops  │  Research     │ Visualization │  Knowledge   │
+│  (Dropbox)  │  Discovery    │   (Manim)     │ Management   │
+├─────────────┼───────────────┼───────────────┼──────────────┤
+│   GitHub    │   Gemini AI   │   Notion      │ Master Coord │
+│    Ops      │  Operations   │   (Manual)    │  (Workflows) │
+├─────────────┴───────────────┴───────────────┴──────────────┤
+│               Claude Flow Integration Layer                  │
+│          (87 tools: Hive-mind, WASM, Workflows)            │
+├─────────────────────────────────────────────────────────────┤
+│            Quality of Life Automation Daemon                 │
+│        (Inbox Processing, Search Priority, Logging)         │
+└─────────────────────────────────────────────────────────────┘
 ```
 
-## Usage Examples
+### Core Modules
 
-### Starting a Research Session
-```
-Initialize a research session on gyrovector trigonometry
-```
+1. **Master Coordinator** (`master_coordinator.py`)
+   - Orchestrates multi-agent workflows
+   - Session management with UUID tracking
+   - Agent status monitoring
+   - Workflow execution pipelines
 
-### Discovering Research
-```
-Find recent papers on hyperbolic geometry using Perplexity
-```
+2. **File Operations** (`file_operations.py`)
+   - Full Dropbox CRUD operations
+   - Binary file support
+   - Smart path handling
+   - SSL certificate management
 
-### Creating Visualizations
-```
-Create a Manim animation of stereographic projection
-```
+3. **Research Discovery** (`research_discovery.py`)
+   - Perplexity AI integration
+   - arXiv paper search
+   - Related work analysis
+   - Trend tracking
 
-### Organizing Knowledge
-```
-Ingest this research paper into Obsidian under the "Papers" category
-```
+4. **Mathematical Visualization** (`mathematical_visualization.py`)
+   - Manim animation generation
+   - Wolfram Alpha validation
+   - Gyrovector space animations
+   - Custom output paths
 
-## Architecture
+5. **Knowledge Management** (`knowledge_ingestion.py`)
+   - Obsidian vault integration
+   - Zettelkasten methodology
+   - Smart categorization
+   - GitHub sync
 
-### Servers
-- **Master Coordinator**: Orchestrates all agents and manages research sessions
-- **Research Discovery Agent**: Finds papers using Perplexity and arXiv
-- **Mathematical Visualization Agent**: Creates animations with Manim and validates with Wolfram
-- **Knowledge Ingestion Agent**: Organizes content in Obsidian and syncs with Dropbox/GitHub
+## 🧠 Claude Flow Integration
+
+### Overview
+Claude Flow v2.0.0-alpha.53 adds 87 specialized tools with hive-mind swarm intelligence, enabling complex mathematical computations and workflow orchestration.
 
 ### Key Features
-- Multi-agent coordination for complex workflows
-- Smart categorization and tagging of mathematical content
-- Integration with popular research tools and platforms
-- Automated visualization generation
-- Cross-platform synchronization
+- **Hive-Mind Architecture**: Queen-led coordination with 4 worker agents
+- **Persistent Memory**: SQLite database at `.swarm/memory.db`
+- **Neural Acceleration**: WASM SIMD support (future enhancement)
+- **Enhanced GitHub**: 6 specialized modes for code management
+- **Mathematical Workflows**: Pre-configured computation sequences
 
-## API Keys Required
-1. **Perplexity API Key**: For AI-powered research discovery
-2. **Wolfram Alpha App ID**: For mathematical validation
-3. **Dropbox App Key & Secret**: For cloud synchronization
-4. **GitHub Token**: For version control of research
+### Available Workflows
 
-## Directory Structure
-```
-mathematical-research-mcp/
-├── src/
-│   ├── servers/
-│   │   ├── master_coordinator.py
-│   │   ├── research_discovery.py
-│   │   ├── mathematical_visualization.py
-│   │   └── knowledge_ingestion.py
-│   └── utils/
-│       └── common.py
-├── visualizations/
-│   └── gyrovector/
-│       ├── gyrovector_clean.py
-│       ├── gyrovector_quick.py
-│       ├── MATHEMATICAL_FOUNDATIONS.md
-│       └── README.md
-├── data/
-│   ├── obsidian_vault/
-│   ├── manim_outputs/
-│   └── dropbox_sync/
-├── config/
-│   └── mcp_config.yaml
-├── .env
-├── requirements.txt
-└── README.md
+1. **Gyrovector-Sequential**: Step-by-step mathematical operations
+2. **Gyrovector-Parallel**: Batch processing for performance
+3. **Mathematical-Analysis**: Pattern discovery and validation
+4. **Performance-Benchmarks**: Speed and accuracy testing
+
+### Quick Commands
+
+```bash
+# Navigate to Claude Flow directory
+cd /Users/scottbroock/Dropbox/MathematicalResearch/claude-flow-integration
+
+# Search mathematical knowledge base
+npx claude-flow@alpha memory search 'gyrovector'
+
+# Execute gyrovector computation
+./gyrovector-compute.sh compute gyroaddition '[0.3,0.4,0]' '[0.1,0.2,0.5]'
+
+# Run workflow
+npx claude-flow@alpha workflow execute "Mathematical-Analysis"
+
+# Process Obsidian note with Claude Flow
+python3 obsidian-integration.py your_note.md
 ```
 
-## Troubleshooting
+### Obsidian Tag Integration
+Use these tags in your notes to trigger Claude Flow:
+- `#cf/compute` - Execute computational workflow
+- `#cf/analyze` - Analyze mathematical structure
+- `#cf/visualize` - Generate visualization request
+- `#cf/explore` - Explore parameter space
 
-### Server won't start
-1. Check that all API keys are properly configured in `.env`
-2. Ensure the virtual environment is activated
-3. Verify all dependencies are installed: `pip install -r requirements.txt`
+## 🛠️ Tool Categories
 
-### Claude Desktop doesn't see the server
-1. Make sure the path in `claude_desktop_config.json` is absolute and correct
-2. Restart Claude Desktop after configuration changes
-3. Check the Claude Desktop logs for error messages
+### Dobbs-MCP Native Tools (43+)
 
-### Manim animations fail
-1. Ensure Manim dependencies are installed: `manim --version`
-2. Check that ffmpeg is installed on your system
-3. Verify the MANIM_OUTPUT_DIR path exists and is writable
+#### File Operations (8 tools)
+- `search_dropbox` - Search files by name, content, or folders
+- `list_dropbox_folder` - Browse directory contents
+- `read_dropbox_file` - Read file contents
+- `save_to_dropbox` - Create/update files
+- `copy_file` - Duplicate files (binary support)
+- `move_file` - Relocate files
+- `delete_file` - Remove files/folders
+- `create_folder` - Create directories
 
-### Text overlapping in animations
-1. Use the `gyrovector_clean.py` version which implements proper spatial layout
-2. Position labels using `.next_to()` with appropriate buffers
-3. Create dedicated areas for formulas and visualizations
+#### GitHub Operations (7 tools)
+- `list_github_repos` - View all repositories
+- `browse_github_repo` - Explore repo structure
+- `read_github_file` - Read file contents
+- `create_github_file` - Create/update files
+- `get_github_repo_info` - Repository metadata
+- `list_github_commits` - Recent commit history
+- `search_github` - Search code/repos
 
-## Development
+#### Research Tools (4 tools)
+- `discover_research` - Find papers via Perplexity/arXiv
+- `analyze_paper` - Extract key concepts
+- `find_related_work` - Discover connected research
+- `track_research_trends` - Monitor field developments
+
+#### Visualization Tools (4 tools)
+- `create_manim_animation` - Generate mathematical animations
+- `validate_with_wolfram` - Verify mathematical statements
+- `create_static_diagram` - Generate static visualizations
+- `create_interactive_visual` - Build interactive demos
+
+#### Knowledge Management (4 tools)
+- `ingest_to_obsidian` - Create atomic notes
+- `sync_to_dropbox` - Synchronize files
+- `manage_github_repo` - Repository operations
+- `create_smart_index` - Generate knowledge maps
+
+#### Notion Integration (6 tools) - MANUAL ONLY
+- `search_notion` - Find pages/databases
+- `create_notion_page` - Create new pages
+- `update_notion_page` - Modify existing pages
+- `add_to_notion_database` - Add database entries
+- `list_notion_databases` - View all databases
+- `sync_obsidian_to_notion` - MANUAL publish only
+
+#### Gemini AI Tools (6 tools)
+- `gemini_query` - General AI analysis
+- `gemini_analyze_code` - Code review/security
+- `gemini_brainstorm` - Creative ideation
+- `gemini_summarize` - Document summarization
+- `gemini_math_analysis` - Mathematical exploration
+- `gemini_research_review` - Paper critique
+
+#### Coordination Tools (4 tools)
+- `initiate_research_session` - Start research workflow
+- `coordinate_workflow` - Orchestrate agents
+- `get_session_status` - Monitor progress
+- `manage_agents` - Control agent states
+
+### Claude Flow Tools (87 additional)
+- Hive-mind coordination tools
+- Neural acceleration frameworks
+- Enhanced GitHub operations (6 modes)
+- Memory persistence operations
+- Dynamic agent management
+- Workflow orchestration
+- Mathematical computation modules
+
+## 🔒 Privacy & Security
+
+### Privacy Architecture
+- **Obsidian = PRIVATE**: All research stays local in Dropbox
+- **Notion = PUBLIC**: Website frontend, explicit publishing only
+- **NO AUTO-SYNC**: Manual control over all publishing
+- **Encrypted Storage**: API keys in environment variables
+
+### Security Features
+- SSL certificate validation for all APIs
+- Path validation prevents directory traversal
+- No hardcoded credentials
+- Comprehensive error logging
+- Sandboxed file operations
+
+## ✨ Quality of Life Features
+
+### Automatic Inbox Processing (v1.3.0)
+- **Location**: `/Users/scottbroock/Dropbox/00_MCP_INBOX`
+- **Frequency**: Hourly automated sweeps
+- **Smart Naming**: `[DOMAIN]_[AUTHOR]_[SUBJECT]_[ZETTELKASTEN_ID].[ext]`
+- **Categorization**: Automatic domain detection and routing
+
+### Search Priority System
+1. GitHub Cloud (code repositories)
+2. Dropbox Cloud (documents)
+3. Notion Cloud (public content)
+4. Obsidian Local (private notes)
+5. Error Logs (diagnostics)
+
+### Master Control Daemon
+```bash
+# Install as system service
+python3 /path/to/mcp_qol_master.py --install
+
+# Check status
+python3 /path/to/mcp_qol_master.py --status
+
+# Run diagnostics
+python3 /path/to/mcp_qol_master.py --diagnostics
+```
+
+## 📚 API Documentation
+
+### Tool Response Format
+All tools return JSON responses:
+```json
+{
+  "status": "success|error",
+  "data": {...},
+  "message": "Human-readable message",
+  "metadata": {
+    "timestamp": "ISO-8601",
+    "tool": "tool_name",
+    "duration_ms": 123
+  }
+}
+```
+
+### Session Management
+```python
+# Start research session
+session = await initiate_research_session(
+    topic="Gyrovector Trigonometry",
+    research_type="deep_dive",
+    output_formats=["obsidian", "manim"],
+    priority_sources=["arxiv", "perplexity"]
+)
+
+# Execute workflow
+workflow = await coordinate_workflow(
+    session_id=session["session_id"],
+    workflow_type="discover_visualize_ingest"
+)
+```
+
+### Mathematical Formulas (Pre-loaded)
+```json
+{
+  "gyroaddition": "u ⊕ v = (1 + u·v/γ_u γ_v)^(-1) [u + (1/γ_u)v + (γ_u/(1+γ_u))(u·v/γ_u²)u]",
+  "gyroscalar": "r ⊗ u = tanh(r * atanh(||u||)) * (u/||u||)",
+  "gyrodistance": "d(u,v) = atanh(||u ⊖ v||)",
+  "gyroparallel_transport": "P_{u→v}(w) = w + 2(u·w)/(1+γ_u)u + 2(v·w)/(1+γ_v)v"
+}
+```
+
+## 🔧 Development Guide
 
 ### Running Tests
 ```bash
-pytest tests/
+# Core system tests
+python test_system.py
+python test_obsidian.py
+python test_github.py
+
+# Visualization tests
+python visualizations/gyrovector/test_gyrovector.py
+
+# Claude Flow tests
+cd claude-flow-integration
+npm test
 ```
 
 ### Adding New Tools
-1. Define the tool in the appropriate server file
-2. Implement the tool handler function
-3. Register the tool with the server
-4. Update documentation
+1. Define tool schema in appropriate server module
+2. Implement async handler function
+3. Register tool in ALL_TOOLS array
+4. Add to tool handler switch statement
+5. Update documentation
 
-### Creating New Visualizations
-1. Add animation files to appropriate module directory
-2. Follow the spatial layout patterns from `gyrovector_clean.py`
-3. Test at different quality levels (low, medium, high)
-4. Document mathematical foundations
+### Creating Visualizations
+```python
+# Example: Gyrovector animation
+from manim import *
 
-## License
+class GyrovectorAnimation(Scene):
+    def construct(self):
+        # Implementation following spatial layout patterns
+        pass
+```
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+**Server won't start**
+- Verify all API keys in `.env`
+- Check Python version (3.8+)
+- Ensure virtual environment activated
+- Review Claude Desktop logs
+
+**Claude Desktop doesn't see server**
+- Absolute paths in config required
+- Restart Claude Desktop after changes
+- Check `run_dobbs_mcp.sh` permissions
+
+**Manim animations fail**
+- Install system dependencies: `ffmpeg`, `LaTeX`
+- Verify `MANIM_OUTPUT_DIR` exists
+- Check available disk space
+
+**API errors**
+- Perplexity API may need endpoint updates
+- Verify API key validity
+- Check rate limits
+
+### Debug Commands
+```bash
+# Check environment
+python -c "from dotenv import load_dotenv; import os; load_dotenv(); print(os.environ.get('DROPBOX_BASE_PATH'))"
+
+# Test specific module
+python -m src.servers.file_operations
+
+# View logs
+tail -f ~/.claude/logs/mcp.log
+```
+
+## 📈 Performance Optimization
+
+- **Async Operations**: All I/O operations are non-blocking
+- **Connection Pooling**: Reused HTTPS connections
+- **Batch Processing**: Claude Flow parallel workflows
+- **Smart Caching**: Persistent memory in SQLite
+- **Resource Limits**: Configurable timeouts and retries
+
+## 🚀 Future Enhancements
+
+- [ ] WASM SIMD acceleration for mathematical computations
+- [ ] Real-time collaboration features
+- [ ] Advanced visualization templates
+- [ ] Extended language model integrations
+- [ ] Mobile companion app
+- [ ] Distributed computing support
+
+## 📄 License
+
 MIT License - See LICENSE file for details
+
+## 🤝 Contributing
+
+Contributions welcome! Please:
+1. Fork the repository
+2. Create a feature branch
+3. Add tests for new functionality
+4. Submit a pull request
+
+## 📞 Support
+
+- **Issues**: GitHub Issues
+- **Documentation**: This README and inline code comments
+- **Community**: Mathematical Research Discord (coming soon)
+
+---
+
+**Built with ❤️ for the mathematical research community**
