@@ -1,0 +1,52 @@
+--- a/src/servers/dobbs_unified.py
++++ b/src/servers/dobbs_unified.py
+@@ -67,6 +67,14 @@ from src.servers.gemini_operations import (
+     GEMINI_OPERATION_TOOLS
+ )
+ 
++# Import hive status tool
++try:
++    from src.tools.hive_status_tool import HiveStatusTool, tool_definition as HIVE_STATUS_TOOL
++    hive_tool_available = True
++except ImportError:
++    hive_tool_available = False
++    HIVE_STATUS_TOOL = None
++
+ # Setup logging
+ logger = setup_logging("DobbsUnified")
+ 
+@@ -109,7 +117,11 @@ ALL_TOOLS = [
+     *NOTION_OPERATION_TOOLS,
+     
+     # Gemini operations
+-    *GEMINI_OPERATION_TOOLS
++    *GEMINI_OPERATION_TOOLS,
++    
++    # Hive status tool (if available)
++    HIVE_STATUS_TOOL if hive_tool_available else None
++    
+ ]
+ 
+ # List available tools
+@@ -201,6 +213,11 @@ async def handle_call_tool(name: str, arguments: dict) -> List[TextContent]:
+         elif name == "gemini_research_review":
+             result = await gemini_research_review(**arguments)
+         
++        # Hive status
++        elif name == "hive_status" and hive_tool_available:
++            tool = HiveStatusTool()
++            result = {"status": "success", "summary": tool.get_comprehensive_summary()}
++        
+         else:
+             result = {"error": f"Unknown tool: {name}"}
+         
+@@ -232,6 +249,9 @@ async def main():
+     ensure_directory(config['paths']['obsidian_vault'])
+     ensure_directory(config['paths']['manim_output'])
+     
++    if hive_tool_available:
++        logger.info("Hive status tool loaded successfully")
++    
+     # Run the server
+     async with stdio_server() as (read_stream, write_stream):
+         await server.run(
