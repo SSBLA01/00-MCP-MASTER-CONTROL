@@ -75,6 +75,9 @@ from src.servers.gemini_operations import (
     GEMINI_OPERATION_TOOLS
 )
 
+# Import Kimi K2 integration
+from src.servers.kimi_k2_integration import KimiK2Integration
+
 # Setup logging
 logger = setup_logging("DobbsUnified")
 
@@ -83,6 +86,12 @@ config = load_config()
 
 # Initialize MCP server
 server = Server("dobbs-unified-mcp")
+
+# Initialize Kimi K2 integration
+kimi_k2 = KimiK2Integration(server)
+
+# Define Kimi K2 tools
+KIMI_K2_TOOLS = kimi_k2.tools
 
 # Combine all tools
 ALL_TOOLS = [
@@ -120,7 +129,10 @@ ALL_TOOLS = [
     *NOTION_OPERATION_TOOLS,
     
     # Gemini operations
-    *GEMINI_OPERATION_TOOLS
+    *GEMINI_OPERATION_TOOLS,
+    
+    # Kimi K2 operations
+    *KIMI_K2_TOOLS
 ]
 
 # List available tools
@@ -236,6 +248,10 @@ async def handle_call_tool(name: str, arguments: dict) -> List[TextContent]:
         elif name == "gemini_research_review":
             result = await gemini_research_review(**arguments)
         
+        # Kimi K2 operations
+        elif name.startswith("kimi_k2_"):
+            return await kimi_k2.handle_tool_call(name, arguments)
+        
         else:
             result = {"error": f"Unknown tool: {name}"}
         
@@ -263,6 +279,10 @@ async def main():
     # Ensure required directories exist
     ensure_directory(config['paths']['obsidian_vault'])
     ensure_directory(config['paths']['manim_output'])
+    
+    # Initialize Kimi K2
+    logger.info("Initializing Kimi K2 integration...")
+    kimi_k2.register_with_server()
     
     # Run the server
     async with stdio_server() as (read_stream, write_stream):
