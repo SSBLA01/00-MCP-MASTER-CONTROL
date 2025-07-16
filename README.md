@@ -1,23 +1,26 @@
 # Dobbs-MCP Master Control System
 
-**Version 1.3.0** | **Claude Flow Integration: v2.0.0-alpha.53** | **Total Tools: 130+**
+**Version 1.4.0** | **Claude Flow Integration: v2.0.0-alpha.53** | **Kimi K2 Integration: v1.0.0** | **Total Tools: 134+**
 
 ## 🚀 Overview
 
-Dobbs-MCP is a unified Model Context Protocol (MCP) server providing AI-powered tools for mathematical research management, knowledge organization, and intelligent automation. This stable release integrates Claude Flow's hive-mind swarm intelligence, bringing the total tool count to over 130 specialized functions.
+Dobbs-MCP is a unified Model Context Protocol (MCP) server providing AI-powered tools for mathematical research management, knowledge organization, and intelligent automation. This stable release integrates Claude Flow's hive-mind swarm intelligence and Moonshot AI's Kimi K2 model via Groq, bringing the total tool count to over 134 specialized functions.
 
 ### Key Features
-- **130+ Integrated Tools**: 43+ native tools + 87 Claude Flow tools
-- **Multi-Platform Integration**: Dropbox, GitHub, Obsidian, Notion, Gemini AI, Perplexity, Wolfram Alpha
+- **134+ Integrated Tools**: 47+ native tools + 87 Claude Flow tools (including 4 new Kimi K2 tools)
+- **Multi-Platform Integration**: Dropbox, GitHub, Obsidian, Notion, Gemini AI, Perplexity, Wolfram Alpha, Groq/Kimi K2
+- **Enhanced Mathematical Reasoning**: Kimi K2 with 97.4% accuracy on MATH-500 via ultra-fast Groq inference
 - **Mathematical Visualization**: Manim animations with gyrovector space support
 - **Intelligent Automation**: Hourly inbox processing, smart file organization
 - **Privacy-First Architecture**: Clear separation between private research and public content
 - **Claude Flow Hive-Mind**: Queen-led swarm intelligence for complex workflows
+- **Lightning-Fast Inference**: 185 tokens/second with Kimi K2 on Groq
 
 ## 📋 Table of Contents
 - [Quick Start](#quick-start)
 - [Architecture](#architecture)
 - [Claude Flow Integration](#claude-flow-integration)
+- [Kimi K2 Integration](#kimi-k2-integration)
 - [Tool Categories](#tool-categories)
 - [Privacy & Security](#privacy--security)
 - [Quality of Life Features](#quality-of-life-features)
@@ -30,7 +33,7 @@ Dobbs-MCP is a unified Model Context Protocol (MCP) server providing AI-powered 
 ### Prerequisites
 - Python 3.8+
 - Claude Desktop
-- API Keys: Perplexity, Wolfram Alpha, Dropbox, GitHub, Notion, Gemini
+- API Keys: Perplexity, Wolfram Alpha, Dropbox, GitHub, Notion, Gemini, Groq
 - Optional: Docker Desktop, Mathematica
 
 ### Installation
@@ -50,7 +53,7 @@ pip install -r qol_improvements/requirements.txt
 
 # Configure environment
 cp .env.example .env
-# Edit .env with your API keys
+# Edit .env with your API keys (including GROQ_API_KEY)
 ```
 
 ### Claude Desktop Configuration
@@ -82,24 +85,24 @@ Restart Claude Desktop after configuration.
 ### System Components
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    Claude Desktop Interface                  │
-├─────────────────────────────────────────────────────────────┤
-│                  Dobbs Unified MCP Server                    │
-│                  (src/servers/dobbs_unified.py)             │
-├─────────────┬───────────────┬───────────────┬──────────────┤
-│   File Ops  │  Research     │ Visualization │  Knowledge   │
-│  (Dropbox)  │  Discovery    │   (Manim)     │ Management   │
-├─────────────┼───────────────┼───────────────┼──────────────┤
-│   GitHub    │   Gemini AI   │   Notion      │ Master Coord │
-│    Ops      │  Operations   │   (Manual)    │  (Workflows) │
-├─────────────┴───────────────┴───────────────┴──────────────┤
-│               Claude Flow Integration Layer                  │
-│          (87 tools: Hive-mind, WASM, Workflows)            │
-├─────────────────────────────────────────────────────────────┤
-│            Quality of Life Automation Daemon                 │
-│        (Inbox Processing, Search Priority, Logging)         │
-└─────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│                    Claude Desktop Interface                   │
+├──────────────────────────────────────────────────────────────┤
+│                  Dobbs Unified MCP Server                     │
+│                  (src/servers/dobbs_unified.py)              │
+├─────────────┬──────────────┬──────────────┬─────────────────┤
+│   File Ops  │  Research    │ Visualization│  Knowledge      │
+│  (Dropbox)  │  Discovery   │   (Manim)    │ Management      │
+├─────────────┼──────────────┼──────────────┼─────────────────┤
+│   GitHub    │   Gemini AI  │   Notion     │ Master Coord    │
+│    Ops      │  Operations  │   (Manual)   │  (Workflows)    │
+├─────────────┼──────────────┼──────────────┼─────────────────┤
+│  Kimi K2    │ Claude Flow  │    QoL       │   Security      │
+│ (Groq API)  │  Hive-Mind   │  Automation  │   & Privacy     │
+├─────────────┴──────────────┴──────────────┴─────────────────┤
+│               External API Infrastructure                     │
+│        (Groq, Perplexity, Wolfram, Dropbox, etc.)           │
+└──────────────────────────────────────────────────────────────┘
 ```
 
 ### Core Modules
@@ -133,6 +136,12 @@ Restart Claude Desktop after configuration.
    - Zettelkasten methodology
    - Smart categorization
    - GitHub sync
+
+6. **Kimi K2 Integration** (`kimi_k2_integration.py`) - NEW!
+   - 1T parameter MoE model access via Groq
+   - Advanced mathematical reasoning
+   - Native MCP support
+   - Collaborative workflows with Claude Flow
 
 ## 🧠 Claude Flow Integration
 
@@ -179,9 +188,40 @@ Use these tags in your notes to trigger Claude Flow:
 - `#cf/visualize` - Generate visualization request
 - `#cf/explore` - Explore parameter space
 
+## 🚀 Kimi K2 Integration
+
+### Overview
+The Kimi K2 integration brings Moonshot AI's state-of-the-art 1 trillion parameter MoE model into Dobbs-MCP via Groq's ultra-fast inference infrastructure.
+
+### Key Features
+- **Superior Mathematical Performance**: 97.4% accuracy on MATH-500 benchmark
+- **Lightning-Fast Inference**: 185 tokens/second via Groq
+- **128K Context Window**: Handle complex proofs and large documents
+- **Native MCP Support**: Seamless integration with existing tools
+- **Agentic Intelligence**: Autonomous tool use and problem-solving
+
+### Quick Start
+```bash
+# Test Kimi K2 integration
+python scripts/kimi_k2_quickstart.py interactive
+
+# Run performance benchmark
+python scripts/kimi_k2_quickstart.py benchmark
+
+# Run all examples
+python scripts/kimi_k2_quickstart.py all
+```
+
+### Available Kimi K2 Tools
+
+1. **kimi_k2_query**: Advanced mathematical reasoning queries
+2. **kimi_k2_solve_problem**: Step-by-step problem solving with validation
+3. **kimi_k2_generate_visualization**: Manim code generation for concepts
+4. **kimi_k2_collaborative_reasoning**: Multi-agent collaborative tasks
+
 ## 🛠️ Tool Categories
 
-### Dobbs-MCP Native Tools (43+)
+### Dobbs-MCP Native Tools (47+)
 
 #### File Operations (8 tools)
 - `search_dropbox` - Search files by name, content, or folders
@@ -235,6 +275,12 @@ Use these tags in your notes to trigger Claude Flow:
 - `gemini_summarize` - Document summarization
 - `gemini_math_analysis` - Mathematical exploration
 - `gemini_research_review` - Paper critique
+
+#### Kimi K2 Tools (4 tools) - NEW!
+- `kimi_k2_query` - Advanced mathematical reasoning
+- `kimi_k2_solve_problem` - Problem solving with validation
+- `kimi_k2_generate_visualization` - Manim code generation
+- `kimi_k2_collaborative_reasoning` - Multi-agent workflows
 
 #### Coordination Tools (4 tools)
 - `initiate_research_session` - Start research workflow
@@ -346,6 +392,9 @@ python test_system.py
 python test_obsidian.py
 python test_github.py
 
+# Kimi K2 tests
+python tests/test_kimi_k2_integration.py
+
 # Visualization tests
 python visualizations/gyrovector/test_gyrovector.py
 
@@ -397,6 +446,11 @@ class GyrovectorAnimation(Scene):
 - Verify API key validity
 - Check rate limits
 
+**Kimi K2 errors**
+- Verify GROQ_API_KEY in `.env`
+- Check Groq service status
+- Monitor rate limits (185 tokens/sec)
+
 ### Debug Commands
 ```bash
 # Check environment
@@ -404,6 +458,9 @@ python -c "from dotenv import load_dotenv; import os; load_dotenv(); print(os.en
 
 # Test specific module
 python -m src.servers.file_operations
+
+# Test Kimi K2
+python scripts/kimi_k2_quickstart.py benchmark
 
 # View logs
 tail -f ~/.claude/logs/mcp.log
@@ -416,6 +473,7 @@ tail -f ~/.claude/logs/mcp.log
 - **Batch Processing**: Claude Flow parallel workflows
 - **Smart Caching**: Persistent memory in SQLite
 - **Resource Limits**: Configurable timeouts and retries
+- **Groq Optimization**: 185 tokens/second inference speed
 
 ## 🚀 Future Enhancements
 
@@ -425,6 +483,8 @@ tail -f ~/.claude/logs/mcp.log
 - [ ] Extended language model integrations
 - [ ] Mobile companion app
 - [ ] Distributed computing support
+- [ ] Kimi K2 fine-tuning for specific domains
+- [ ] Streaming responses from Groq
 
 ## 📄 License
 
