@@ -6,7 +6,7 @@ This module integrates Moonshot AI's Kimi K2 model via Groq API
 into the existing MCP system, providing enhanced mathematical reasoning
 and agentic capabilities.
 
-Version: 1.0.0
+Version: 1.0.1
 """
 
 import os
@@ -18,7 +18,16 @@ from dataclasses import dataclass
 from datetime import datetime
 
 import aiohttp
-from groq import AsyncGroq
+
+# Defensive import for groq module
+try:
+    from groq import AsyncGroq
+    GROQ_AVAILABLE = True
+except ImportError as e:
+    GROQ_AVAILABLE = False
+    AsyncGroq = None
+    logging.warning(f"groq module not available: {e}")
+
 from mcp import Server, types
 from mcp.types import Tool, TextContent
 
@@ -42,7 +51,11 @@ class KimiK2Agent:
     
     def __init__(self, config: KimiK2Config):
         self.config = config
-        self.client = AsyncGroq(api_key=config.groq_api_key)
+        if GROQ_AVAILABLE and AsyncGroq:
+            self.client = AsyncGroq(api_key=config.groq_api_key)
+        else:
+            self.client = None
+            logger.warning("Kimi K2 Agent initialized without groq client")
         self.session_history: List[Dict[str, Any]] = []
         
     async def query(
@@ -64,6 +77,12 @@ class KimiK2Agent:
         Returns:
             Response from Kimi K2 with enhanced mathematical reasoning
         """
+        if not GROQ_AVAILABLE or self.client is None:
+            return {
+                "error": "Groq module not available. Please install: pip install groq",
+                "status": "error"
+            }
+        
         try:
             # Prepare messages
             messages = []
@@ -279,7 +298,11 @@ class KimiK2Integration:
         self.config = KimiK2Config(
             groq_api_key=os.getenv("GROQ_API_KEY", "")
         )
-        self.agent = KimiK2Agent(self.config)
+        if GROQ_AVAILABLE:
+            self.agent = KimiK2Agent(self.config)
+        else:
+            self.agent = None
+            logger.warning("Kimi K2 Integration initialized without agent (groq not available)")
         self.tools = self._define_tools()
         
     def _define_tools(self) -> List[Tool]:
@@ -383,6 +406,15 @@ class KimiK2Integration:
     async def handle_tool_call(self, name: str, arguments: Dict[str, Any]) -> Any:
         """Handle MCP tool calls for Kimi K2"""
         
+        if not GROQ_AVAILABLE or self.agent is None:
+            return [TextContent(
+                type="text",
+                text=json.dumps({
+                    "error": "Kimi K2 integration requires groq module. Install with: pip install groq",
+                    "status": "error"
+                }, indent=2)
+            )]
+        
         if name == "kimi_k2_query":
             result = await self.agent.query(
                 prompt=arguments["prompt"],
@@ -434,6 +466,10 @@ class KimiK2Integration:
     
     def register_with_server(self):
         """Register Kimi K2 tools with the MCP server"""
+        if not self.tools:
+            logger.warning("No Kimi K2 tools to register")
+            return
+            
         for tool in self.tools:
             self.server.add_tool(tool)
             
