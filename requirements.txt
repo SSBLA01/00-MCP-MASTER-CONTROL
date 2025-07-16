@@ -7,6 +7,7 @@ aiofiles>=23.0.0
 
 # API clients
 openai>=1.0.0  # For Perplexity API compatibility
+groq>=0.11.0   # For Kimi K2 via Groq API
 
 # Mathematical libraries
 numpy>=1.24.0
@@ -26,3 +27,7 @@ requests>=2.31.0
 
 # SSL/TLS support
 certifi>=2023.0.0
+
+# Testing (optional)
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
