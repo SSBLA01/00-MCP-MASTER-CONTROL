@@ -75,8 +75,14 @@ from src.servers.gemini_operations import (
     GEMINI_OPERATION_TOOLS
 )
 
-# Import Kimi K2 integration
-from src.servers.kimi_k2_integration import KimiK2Integration
+# Import Kimi K2 integration with defensive error handling
+try:
+    from src.servers.kimi_k2_integration import KimiK2Integration
+    kimi_available = True
+except ImportError as e:
+    kimi_available = False
+    import logging
+    logging.getLogger("DobbsUnified").warning(f"Kimi K2 integration unavailable: {e}")
 
 # Setup logging
 logger = setup_logging("DobbsUnified")
@@ -87,11 +93,16 @@ config = load_config()
 # Initialize MCP server
 server = Server("dobbs-unified-mcp")
 
-# Initialize Kimi K2 integration
-kimi_k2 = KimiK2Integration(server)
+# Initialize Kimi K2 integration if available
+kimi_k2 = None
+if kimi_available:
+    try:
+        kimi_k2 = KimiK2Integration(server)
+    except Exception as e:
+        logger.warning(f"Failed to initialize Kimi K2 integration: {e}")
 
 # Define Kimi K2 tools
-KIMI_K2_TOOLS = kimi_k2.tools
+KIMI_K2_TOOLS = kimi_k2.tools if kimi_k2 else []
 
 # Combine all tools
 ALL_TOOLS = [
@@ -131,7 +142,7 @@ ALL_TOOLS = [
     # Gemini operations
     *GEMINI_OPERATION_TOOLS,
     
-    # Kimi K2 operations
+    # Kimi K2 operations (if available)
     *KIMI_K2_TOOLS
 ]
 
@@ -250,7 +261,13 @@ async def handle_call_tool(name: str, arguments: dict) -> List[TextContent]:
         
         # Kimi K2 operations
         elif name.startswith("kimi_k2_"):
-            return await kimi_k2.handle_tool_call(name, arguments)
+            if kimi_k2:
+                return await kimi_k2.handle_tool_call(name, arguments)
+            else:
+                result = {
+                    "error": "Kimi K2 integration not available. Please install groq: pip install groq",
+                    "status": "error"
+                }
         
         else:
             result = {"error": f"Unknown tool: {name}"}
@@ -280,9 +297,13 @@ async def main():
     ensure_directory(config['paths']['obsidian_vault'])
     ensure_directory(config['paths']['manim_output'])
     
-    # Initialize Kimi K2
-    logger.info("Initializing Kimi K2 integration...")
-    kimi_k2.register_with_server()
+    # Initialize Kimi K2 if available
+    if kimi_k2:
+        logger.info("Initializing Kimi K2 integration...")
+        kimi_k2.register_with_server()
+        logger.info("✅ Kimi K2 integration active (4 tools)")
+    else:
+        logger.warning("⚠️  Kimi K2 integration not available")
     
     # Run the server
     async with stdio_server() as (read_stream, write_stream):
