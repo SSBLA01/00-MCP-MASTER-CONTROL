@@ -21,7 +21,7 @@ from datetime import datetime
 
 from mcp.types import Tool, TextContent
 
-# SECURITY CONFIGURATION
+# SECURITY CONFIGURATION - UPDATED AFTER OBSIDIAN MOVE
 ALLOWED_DROPBOX_PATHS = [
     '00_MCP_Living_Knowledge_System',
     '00_MCP_SYSTEM', 
@@ -32,13 +32,14 @@ ALLOWED_DROPBOX_PATHS = [
     '00_MCP_OPER',
     '00_MCP_LEGA',
     '00_MCP_IDEATION',
+    '00_MCP_Obsidian_Vault',  # NEW: Obsidian vault moved from 01_Totem_Networks
     'Media',
     'MathematicalResearch'
 ]
 
 # SECURITY: Define forbidden paths
 FORBIDDEN_PATHS = [
-    '01_Totem_Networks',  # Sensitive business folder
+    '01_Totem_Networks',  # Sensitive business folder - NOW FULLY PROTECTED
     '..',                 # Path traversal attempts
     '/etc',              # System files
     '/System',           # macOS system
@@ -697,3 +698,4 @@ FILE_OPERATION_TOOLS = [
 security_logger.info("=== MCP SECURITY SYSTEM INITIALIZED ===")
 security_logger.info(f"Allowed paths: {', '.join(ALLOWED_DROPBOX_PATHS)}")
 security_logger.info(f"Forbidden paths: {', '.join(FORBIDDEN_PATHS)}")
+security_logger.info("SECURITY UPDATE: Obsidian vault moved from 01_Totem_Networks to 00_MCP_Obsidian_Vault")
