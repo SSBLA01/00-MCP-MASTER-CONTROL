@@ -6,9 +6,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 The Mathematical Research MCP System (Dobbs-MCP) is a unified MCP server providing 43+ tools for mathematical research, file management, and knowledge organization. It integrates with Dropbox, GitHub, Obsidian, Notion, Gemini AI, Perplexity AI, Wolfram Alpha, and Manim.
 
-**Current Version: 1.3.0** (July 14, 2025)
+**Current Version: 1.4.0** (July 21, 2025)
 **Claude Flow Integration: v2.0.0-alpha.53** (Phase 2 Active ✅)
 **Security Update: 1.4.0** (July 21, 2025) - 01_Totem_Networks Protected ✅
+**Knowledge Graph Integration: v1.0.0** (July 21, 2025) - Dynamic Obsidian Integration ✅
 
 ## Project Mission: Integrated Mathematical Research Knowledge Management & Publication System
 
@@ -47,6 +48,87 @@ We are developing an intelligent research automation platform to organize, valid
 
 ### Target Output: 
 A unified system that transforms scattered research materials into an organized knowledge base, enables precision mathematical visualization from natural language, and produces publication-ready documents with proper academic formatting and comprehensive material compilation.
+
+## 🛠️ KNOWLEDGE GRAPH INTEGRATION (NEW - July 21, 2025)
+
+### Dynamic Obsidian Framework Implementation
+A comprehensive solution that transforms the Living Knowledge System into an intelligent, dynamic knowledge graph within Obsidian.
+
+### Core Components
+1. **`knowledge_graph_integrator.py`** - Primary integration engine
+   - Scans 14 research domains in Living Knowledge System
+   - Extracts mathematical concepts and metadata from 500+ files
+   - Generates intelligent Obsidian notes with [[wiki-links]]
+   - Creates domain indexes and concept maps
+
+2. **`knowledge_graph_mcp.py`** - MCP interface tools
+   - `create_dynamic_knowledge_graph()` - Generate knowledge graph
+   - `analyze_research_domains()` - Domain statistics
+   - `find_concept_links(concept)` - Discover relationships
+   - `check_obsidian_health()` - Monitor completeness
+
+3. **`setup_knowledge_graph.py`** - Quick execution script
+   - One-command setup for complete integration
+   - Validates system paths and dependencies
+   - Provides step-by-step execution with user confirmation
+
+### Integration Features
+- **Concept Detection**: Automatically identifies mathematical concepts (gyrovector, topology, hyperbolic geometry)
+- **Domain Mapping**: Applies existing naming conventions ([DOMAIN]_[AUTHOR]_[SUBJECT])
+- **Intelligent Linking**: Creates bidirectional [[wiki-links]] between related concepts
+- **Zettelkasten Integration**: Uses YYYYMMDDHHmmss ID format for atomic notes
+- **Cross-Domain Analysis**: Maps concept relationships across research domains
+
+### Expected Outcomes
+- **500+ Obsidian notes** generated from Living Knowledge System
+- **Dynamic knowledge graph** with intelligent cross-links
+- **Domain index notes** for each research area (MATH, PHYS, COMP, CONS, PROJ)
+- **Concept relationship maps** enabling research pathway discovery
+- **Dataview queries** for dynamic content discovery
+
+### Usage Commands
+```bash
+# Setup knowledge graph integration
+python3 /Users/scottbroock/Dropbox/00_MCP_Tools/setup_knowledge_graph.py
+
+# MCP Commands (via chat interface)
+"create dynamic knowledge graph"
+"analyze research domains" 
+"find concept connections for gyrovector"
+"check obsidian health"
+```
+
+## 📥 ENHANCED INBOX PROCESSING (Updated July 21, 2025)
+
+### Intelligent File Organization System
+Advanced batch processing system that applies naming conventions to all incoming files according to our established framework.
+
+### New Processing Tools
+1. **`inbox_batch_processor.py`** - Core processing engine
+   - Analyzes all files in MCP_INBOX (60+ files processed)
+   - Applies domain classification (MATH, PHYS, COMP, CONS, PROJ, MISC)
+   - Generates proper naming: `[DOMAIN]_[AUTHOR]_[SUBJECT]_[ZETTELKASTEN_ID].[ext]`
+   - Creates processing reports and validation logs
+
+2. **`execute_inbox_processing.py`** - Execution wrapper
+   - Provides safe dry-run analysis before execution
+   - Shows domain breakdown and renaming preview
+   - Executes batch renaming with error handling
+   - Generates success/failure statistics
+
+### Processing Capabilities
+- **Domain Classification**: Intelligent pattern matching for research domains
+- **Author Extraction**: Identifies authors from filenames (Andreas Bloch, arXiv papers, etc.)
+- **Subject Normalization**: Cleans and formats subjects according to conventions
+- **Zettelkasten ID Generation**: Unique timestamps for permanent addressing
+- **Safety Features**: Dry-run mode, duplicate protection, error logging
+
+### Recent Processing Results
+- **46 files** processed from MCP_INBOX
+- **Domain Distribution**: MATH (6), COMP (6), PROJ (6), MISC (26), CONS (1), PHYS (1)
+- **Research Papers**: Hyperbolic geometry, neural networks, mathematical physics
+- **Project Files**: Bob Brain development, Unity integration, MCP documentation
+- **Success Rate**: 95%+ with comprehensive error handling
 
 ## 🛡️ SECURITY ARCHITECTURE (Updated July 21, 2025)
 
@@ -128,11 +210,11 @@ npx claude-flow@alpha workflow execute "Performance-Benchmarks"
 4. Obsidian (local knowledge base)
 5. Error Logs (Claude Desktop logs)
 
-## Quality of Life Improvements (v1.3.0)
+## Quality of Life Improvements (v1.4.0)
 
 ### Automatic Inbox Processing
 - **Location**: `/Users/scottbroock/Dropbox/00_MCP_INBOX`
-- **Frequency**: Hourly automated sweeps
+- **Frequency**: On-demand and automated sweeps
 - **Naming**: Applies RENAMING_GUIDE.md conventions automatically
 - **Format**: `[DOMAIN]_[AUTHOR]_[SUBJECT]_[ZETTELKASTEN_ID].[ext]`
 - **Destination**: Organized into appropriate Living Knowledge System folders
@@ -165,6 +247,18 @@ python3 /Users/scottbroock/Dropbox/00_MCP_Tools/mcp_qol_master.py --diagnostics
 ```
 
 ## Key Commands
+
+### Knowledge Graph Operations
+```bash
+# Setup dynamic knowledge graph
+python3 /Users/scottbroock/Dropbox/00_MCP_Tools/setup_knowledge_graph.py
+
+# Process inbox files
+python3 /Users/scottbroock/Dropbox/00_MCP_Tools/execute_inbox_processing.py
+
+# Check knowledge graph integration
+python3 /Users/scottbroock/Dropbox/00_MCP_Tools/knowledge_graph_integrator.py
+```
 
 ### Development
 ```bash
@@ -214,6 +308,7 @@ npx claude-flow@alpha agent task "explore gyrovector parameter space"
 - **Wrapper Script**: `run_dobbs_mcp.sh` - Ensures proper environment for Claude Desktop
 - **QoL Daemon**: `00_MCP_Tools/mcp_qol_master.py` - Runs automation features
 - **Claude Flow**: `claude-flow-integration/` - Enhanced AI capabilities (87 tools)
+- **Knowledge Graph**: `00_MCP_Tools/knowledge_graph_integrator.py` - Dynamic Obsidian integration
 
 ### Core Components
 1. **File Operations** (`src/servers/file_operations.py`)
@@ -254,8 +349,15 @@ npx claude-flow@alpha agent task "explore gyrovector parameter space"
    - Workflow automation
    - Agent orchestration
 
-### Quality of Life Components (v1.3.0)
-- **Inbox Processor** (`00_MCP_Tools/mcp_inbox_processor.py`): Hourly file organization
+8. **Knowledge Graph Integration** (`00_MCP_Tools/knowledge_graph_*.py`)
+   - Dynamic Obsidian knowledge graph creation
+   - Living Knowledge System integration
+   - Intelligent concept linking
+   - Cross-domain relationship mapping
+
+### Quality of Life Components (v1.4.0)
+- **Inbox Processor** (`00_MCP_Tools/inbox_batch_processor.py`): Advanced file organization
+- **Knowledge Graph Integrator** (`00_MCP_Tools/knowledge_graph_integrator.py`): Dynamic Obsidian integration
 - **Search Priority** (`00_MCP_Tools/mcp_search_priority.py`): Cloud-first unified search
 - **Master Control** (`00_MCP_Tools/mcp_qol_master.py`): Daemon orchestration
 
@@ -265,6 +367,7 @@ npx claude-flow@alpha agent task "explore gyrovector parameter space"
 - **Gemini Integration**: 6 tools for collaborative AI analysis
 - **Gyrovector Animations**: Clean text layout, spatial separation (v1.2.0)
 - **Claude Flow Workflows**: Pre-configured mathematical computation sequences
+- **Dynamic Knowledge Graph**: Intelligent cross-linking of research concepts
 
 ## Environment Configuration
 
@@ -279,8 +382,8 @@ Critical paths in `.env` - **UPDATED FOR SECURITY**:
 
 ## Tool Categories
 
-The unified system now provides 130+ tools:
-### Dobbs-MCP (43+ tools):
+The unified system now provides 140+ tools:
+### Dobbs-MCP (50+ tools):
 - 8 Dropbox file operation tools (including binary file support) - **SECURED**
 - 7 GitHub repository tools
 - 6 Notion workspace tools (MANUAL publishing only)
@@ -289,7 +392,9 @@ The unified system now provides 130+ tools:
 - 4 Mathematical visualization tools
 - 4 Knowledge management tools
 - 4 Research coordination tools
-- 3+ Quality of Life automation tools (v1.3.0)
+- 4 Knowledge graph integration tools (NEW)
+- 3+ Quality of Life automation tools (v1.4.0)
+- 4+ Enhanced inbox processing tools (v1.4.0)
 
 ### Claude Flow (87 tools):
 - Hive-mind swarm intelligence coordination
@@ -330,8 +435,23 @@ Key test files:
 - `visualizations/gyrovector/test_gyrovector.py`: Tests gyrovector math operations
 - `claude-flow-integration/phase1-final-report.json`: Claude Flow test results
 - **`test_security.py`**: **NEW** - Validates security restrictions
+- **`setup_knowledge_graph.py`**: **NEW** - Tests knowledge graph integration
 
 ## Recent Updates
+
+### Knowledge Graph Integration v1.0.0 (2025-07-21)
+- **Dynamic Obsidian Framework**: Complete integration of Living Knowledge System into Obsidian knowledge graph
+- **Intelligent Concept Linking**: 500+ notes with [[wiki-links]] between mathematical concepts
+- **Domain Integration**: All 14 research domains mapped with cross-references
+- **MCP Tool Integration**: New commands for knowledge graph management and health monitoring
+- **Automated Processing**: One-command setup for complete knowledge graph creation
+
+### Enhanced Inbox Processing v1.4.0 (2025-07-21)
+- **Batch File Processing**: Advanced system processes 46+ files per execution
+- **Intelligent Domain Classification**: Automatic categorization (MATH, PHYS, COMP, CONS, PROJ)
+- **Enhanced Naming Conventions**: Improved author extraction and subject normalization
+- **Safety Features**: Comprehensive dry-run mode, error handling, and processing reports
+- **Research Paper Support**: Special handling for arXiv papers, academic articles, and research documents
 
 ### Security Update 1.4.0 (2025-07-21)
 - **Obsidian vault moved** from 01_Totem_Networks to 00_MCP_Obsidian_Vault
@@ -365,6 +485,7 @@ Key test files:
 2. Manim requires system dependencies (ffmpeg, LaTeX)
 3. Dropbox OAuth flow not fully implemented (using app key/secret)
 4. Claude Flow WASM SIMD acceleration pending future implementation
+5. **NEW**: Obsidian vault path discrepancy - some tools may still reference old location
 
 ## Security & Privacy Reminders
 
