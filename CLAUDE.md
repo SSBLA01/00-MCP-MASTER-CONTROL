@@ -8,6 +8,7 @@ The Mathematical Research MCP System (Dobbs-MCP) is a unified MCP server providi
 
 **Current Version: 1.3.0** (July 14, 2025)
 **Claude Flow Integration: v2.0.0-alpha.53** (Phase 2 Active ✅)
+**Security Update: 1.4.0** (July 21, 2025) - 01_Totem_Networks Protected ✅
 
 ## Project Mission: Integrated Mathematical Research Knowledge Management & Publication System
 
@@ -33,7 +34,7 @@ We are developing an intelligent research automation platform to organize, valid
 - GitHub (code repository and version control)
 - Dropbox API (cloud storage with smart naming)
 - Docker Desktop (containerized tool deployment)
-- Obsidian API (PKM backend with atomic notes)
+- Obsidian API (PKM backend with atomic notes) - **SECURED LOCATION**
 - Notion API (selective publishing and collaboration)
 - Gemini AI API (collaborative analysis and brainstorming)
 - Perplexity API (deep research and critical mathematical formulas for rendering)
@@ -46,6 +47,28 @@ We are developing an intelligent research automation platform to organize, valid
 
 ### Target Output: 
 A unified system that transforms scattered research materials into an organized knowledge base, enables precision mathematical visualization from natural language, and produces publication-ready documents with proper academic formatting and comprehensive material compilation.
+
+## 🛡️ SECURITY ARCHITECTURE (Updated July 21, 2025)
+
+### Critical Security Separation
+- **01_Totem_Networks**: COMPLETELY PROTECTED - Business operations, sensitive data
+- **MCP Research Folders**: ALLOWED ACCESS - Research and automation tools only
+- **Obsidian Vault**: MOVED TO SECURE LOCATION - No longer in business folder
+
+### Secured File Access
+The MCP system now implements comprehensive security restrictions:
+- **Path Validation**: All file operations validated against allowed directories
+- **Input Sanitization**: Path traversal attacks blocked
+- **Access Logging**: All file operations logged for security monitoring
+- **Business Data Protection**: 01_Totem_Networks folder completely inaccessible
+
+### Allowed MCP Paths
+- `00_MCP_Living_Knowledge_System` - Research knowledge base
+- `00_MCP_SYSTEM` - MCP system files and logs
+- `00_MCP_Obsidian_Vault` - **NEW SECURE LOCATION** for Obsidian
+- `00_MCP_INBOX`, `00_MCP_ARCHIVE`, `00_MCP_Tools` - MCP operations
+- `Media` - Animation and visualization outputs
+- `MathematicalResearch` - Mathematical research files
 
 ## 🚀 Claude Flow Integration (Phase 2 Active)
 
@@ -160,6 +183,7 @@ python test_system.py
 python test_obsidian.py
 python test_github.py
 python visualizations/gyrovector/test_gyrovector.py  # New in v1.2.0
+python test_security.py  # NEW: Security validation tests
 ```
 
 ### Claude Desktop Integration
@@ -195,6 +219,7 @@ npx claude-flow@alpha agent task "explore gyrovector parameter space"
 1. **File Operations** (`src/servers/file_operations.py`)
    - Dropbox search, read, write, list operations
    - All paths relative to `/Users/scottbroock/Dropbox`
+   - **SECURITY**: Use `file_operations_secured.py` for protected access
 
 2. **GitHub Operations** (`src/servers/github_operations.py`)
    - Full repository management with SSL support
@@ -243,8 +268,8 @@ npx claude-flow@alpha agent task "explore gyrovector parameter space"
 
 ## Environment Configuration
 
-Critical paths in `.env`:
-- `OBSIDIAN_VAULT_PATH`: `/Users/scottbroock/Dropbox/01_Totem_Networks/04_Obsidian`
+Critical paths in `.env` - **UPDATED FOR SECURITY**:
+- `OBSIDIAN_VAULT_PATH`: `/Users/scottbroock/Dropbox/00_MCP_Obsidian_Vault` (**MOVED FOR SECURITY**)
 - `MANIM_OUTPUT_DIR`: `/Users/scottbroock/Dropbox/MathematicalResearch/manim_outputs`
 - `DROPBOX_BASE_PATH`: `/Users/scottbroock/Dropbox`
 - `MCP_INBOX_PATH`: `/Users/scottbroock/Dropbox/00_MCP_INBOX`
@@ -256,7 +281,7 @@ Critical paths in `.env`:
 
 The unified system now provides 130+ tools:
 ### Dobbs-MCP (43+ tools):
-- 8 Dropbox file operation tools (including binary file support)
+- 8 Dropbox file operation tools (including binary file support) - **SECURED**
 - 7 GitHub repository tools
 - 6 Notion workspace tools (MANUAL publishing only)
 - 6 Gemini AI analysis tools
@@ -304,8 +329,15 @@ Key test files:
 - `create_manim_demo.py`: Generates actual MP4 videos
 - `visualizations/gyrovector/test_gyrovector.py`: Tests gyrovector math operations
 - `claude-flow-integration/phase1-final-report.json`: Claude Flow test results
+- **`test_security.py`**: **NEW** - Validates security restrictions
 
 ## Recent Updates
+
+### Security Update 1.4.0 (2025-07-21)
+- **Obsidian vault moved** from 01_Totem_Networks to 00_MCP_Obsidian_Vault
+- **Complete business data protection** - 01_Totem_Networks now inaccessible to MCP
+- **Comprehensive security implementation** with path validation and access logging
+- **File operations secured** with input sanitization and access controls
 
 ### Claude Flow Integration (2025-07-14)
 - Phase 1 complete (87.5% success rate)
@@ -334,9 +366,18 @@ Key test files:
 3. Dropbox OAuth flow not fully implemented (using app key/secret)
 4. Claude Flow WASM SIMD acceleration pending future implementation
 
-## Privacy Reminders
+## Security & Privacy Reminders
 
 1. **Research stays private**: All Obsidian content is local unless explicitly published
 2. **Manual publishing only**: Use `sync_obsidian_to_notion` only when commanded
 3. **Notion is public**: Consider all Notion content as website-visible
 4. **No automatic syncing**: The system never auto-publishes private content
+5. **Business data protected**: 01_Totem_Networks completely inaccessible to MCP
+6. **Security monitoring**: All file access logged in `/Users/scottbroock/Dropbox/00_MCP_SYSTEM/security.log`
+
+## Emergency Security Information
+
+- **Security Log**: `/Users/scottbroock/Dropbox/00_MCP_SYSTEM/security.log`
+- **Backup Files**: All working configurations backed up in GitHub
+- **Rollback**: Use `test_security.py` to validate before deployment
+- **Support**: All security documentation in `00_MCP_SYSTEM/` folder
