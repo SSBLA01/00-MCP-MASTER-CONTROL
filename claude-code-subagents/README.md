@@ -21,20 +21,55 @@ This directory contains specialized Claude Code sub-agents that complement the e
 - **Scene Graph Management**: Efficient handling of complex 3D animations
 - **Quality Options**: Preview, standard, and 4K rendering modes
 
-### 3. mobius-transformer
+### 3. manim-swarm 🐝 (New)
+**GitHub Pattern Discovery Swarm** - Automated discovery system that searches GitHub for Manim animation patterns and examples. Features:
+- **Multi-Agent Architecture**: Scout, Analyzer, Extractor, and Cataloger agents
+- **Pattern Mining**: Discovers reusable animation code across repositories
+- **Quality Assessment**: Evaluates code quality and mathematical accuracy
+- **Knowledge Integration**: Automatically enhances other agents with discoveries
+- **Continuous Learning**: Weekly discovery runs for emerging patterns
+
+### 4. mobius-transformer
 Specialized in Möbius transformations, conformal mappings, and complex analysis. Manages transformation groups, fixed point analysis, and connections to physics.
 
-### 4. auxetic-materials
+### 5. auxetic-materials
 Expert in auxetic bistable metamaterials, negative Poisson's ratio structures, and advanced material design. Handles deformation analysis and optimization.
 
-### 5. quantum-qbism
+### 6. quantum-qbism
 Specialist in Quantum Bayesianism, subjective probability in quantum contexts, and philosophical interpretations of quantum mechanics.
 
-### 6. charm-cognition
+### 7. charm-cognition
 Expert in the CHARM framework for cognition and manifolds, analyzing cognitive processes through manifold theory and consciousness studies.
 
-### 7. research-orchestrator
+### 8. research-orchestrator
 Meta-coordinator that routes tasks between sub-agents and Claude Flow based on task characteristics, managing complex multi-domain research sessions.
+
+## Manim Swarm System
+
+### Quick Deployment
+```bash
+# Run swarm for specific concept
+python scripts/run_manim_swarm.py --concept gyrovector
+
+# Batch discovery
+python scripts/run_manim_swarm.py --batch
+
+# Full scan across all categories
+python scripts/run_manim_swarm.py --full-scan
+```
+
+### Integration with MCP
+```python
+# Import manim swarm
+from src.manim_swarm import ManimSwarm
+
+# Deploy swarm
+swarm = ManimSwarm()
+patterns = await swarm.deploy_swarm("hyperbolic geometry")
+
+# Enhance agents with discoveries
+swarm.enhance_agents(patterns)
+```
 
 ## NLP to Manim Pipeline
 
@@ -84,6 +119,7 @@ Use `/agents` command in Claude Code to see all available sub-agents.
 - **Sub-agents**: Provide domain expertise, context isolation, specialized analysis
 - **Orchestrator**: Routes tasks optimally between systems
 - **NLP Pipeline**: Seamless plain English to animation workflow
+- **Manim Swarm**: Continuous pattern discovery and integration
 
 ### Communication Flow
 ```
@@ -94,6 +130,7 @@ NLP Pipeline Parser
 Research Orchestrator → Decision
                         ├→ math-animator (for visualizations)
                         ├→ clifford-geom-expert (for computations)
+                        ├→ manim-swarm (for pattern discovery)
                         └→ Claude Flow (for distributed tasks)
 ```
 
@@ -107,6 +144,15 @@ Research Orchestrator → Decision
 → math-animator generates 4K animation
 ```
 
+### Pattern Discovery Workflow
+```
+"Find examples of hyperbolic geometry animations on GitHub"
+→ manim-swarm deploys scout agents
+→ Discovers and analyzes repositories
+→ Extracts reusable patterns
+→ Updates math-animator templates
+```
+
 ### Complex Geometric Computation
 ```
 "Calculate the orbifold structure of H²/(2,3,7) and visualize the fundamental domain"
@@ -115,21 +161,13 @@ Research Orchestrator → Decision
 → math-animator creates visualization
 ```
 
-### Hybrid Workflow
-```
-"Generate a comprehensive analysis of gyrovector spaces with animations showing addition in different models"
-→ Orchestrator coordinates multiple agents
-→ clifford-geom-expert provides computations
-→ math-animator creates comparative visualizations
-→ Results compiled in Obsidian
-```
-
 ## Enhanced Tool Mapping
 
 | Sub-agent | Primary Tools | Claude Flow Integration | New Capabilities |
 |-----------|--------------|------------------------|------------------|
 | clifford-geom-expert | cf_gyro*, symbolic computation | Full mathematical toolkit | Multi-model support, orbifold analysis |
 | math-animator | create_manim_animation, NLP pipeline | Animation generation | Plain English input, 4K rendering |
+| manim-swarm | web_search, web_fetch, pattern extraction | Discovery automation | GitHub mining, pattern cataloging |
 | mobius-transformer | cf_mobius_transform, cf_conformal_map | Computation delegation | - |
 | auxetic-materials | validate_with_wolfram, gemini_analyze | Material simulation tools | - |
 | quantum-qbism | discover_research, gemini_math_analysis | Research discovery | - |
@@ -144,20 +182,28 @@ Research Orchestrator → Decision
    - Multi-model mathematical operations
    - High-quality visualization generation
 
-2. **Leverage NLP pipeline for**:
+2. **Deploy manim-swarm for**:
+   - Discovering new animation techniques
+   - Building pattern libraries
+   - Learning from community examples
+   - Keeping up with Manim developments
+
+3. **Leverage NLP pipeline for**:
    - Converting research descriptions to animations
    - Batch processing of visualization requests
    - Standardizing animation workflows
 
-3. **Combine agents when**:
+4. **Combine agents when**:
    - Computations need visualization
    - Multiple mathematical domains intersect
    - Research requires both analysis and presentation
+   - Pattern discovery enhances current work
 
 ## Performance Considerations
 
 - **clifford-geom-expert**: Use exact mode for proofs, optimized mode for animations
 - **math-animator**: Preview mode for development, 4K for final output
+- **manim-swarm**: Schedule weekly discovery runs, cache discovered patterns
 - **NLP Pipeline**: Cache parsed requests for similar animations
 - **Integration**: Batch similar operations for efficiency
 
@@ -168,3 +214,4 @@ Research Orchestrator → Decision
 - Performance monitoring through orchestrator
 - Feedback incorporation from usage patterns
 - NLP model training based on successful parses
+- Manim swarm continuous learning from GitHub ecosystem
